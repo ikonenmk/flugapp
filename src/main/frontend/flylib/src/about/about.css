@@ -1,4 +1,5 @@
 .about-text {
+    max-width: 40em;
     color: black;
     padding: 0.5em;
 }
