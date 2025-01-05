@@ -1,0 +1,66 @@
+.material-list {
+    list-style-type: none;
+    padding-left: 0px;
+    color: black;
+}
+
+.material-list li {
+    display: flex;
+    flex-direction: column;
+}
+
+.species-list {
+    list-style-type: none;
+    padding-left: 0px;
+    color: black;
+}
+
+.species-list li {
+    display: flex;
+    flex-direction: column;
+}
+
+.imgAndMaterialsContainer {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.materialsContainer {
+    color: black;
+    display:flex;
+    flex-direction: column;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.patternImage {
+    width: 100%;
+    max-width: 30em;
+}
+
+.descriptionAndInstructionContainer {
+    margin-left: 1em;
+    color: black;
+}
+
+.patternContainer {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+.patternContainer h1 {
+    margin-left: 0.2em;
+}
+
+.patternContainer h2 {
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+.creator-container {
+    color: black;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}

@@ -1,0 +1,107 @@
+
+
+.image-container {
+    background-color: inherit;
+}
+
+.name-search-field {
+    position: relative;
+    z-index: 9999;
+
+}
+
+.creator-search-field {
+    position: relative;
+    z-index: 10000;
+}
+
+
+.material-search-field {
+    position: relative;
+    z-index: 9998;
+}
+
+.species-search-field {
+    position: relative;
+    z-index: 9997;
+}
+
+.name-search-field .search-field .auto-search {
+    z-index: 9999;
+    position: relative;
+
+}
+
+.material-search-field .search-field .auto-search {
+    z-index: 9998;
+    position: relative;
+
+}
+
+.species-search-field .search-field .auto-search {
+    z-index: 9997;
+    position: relative;
+}
+.creator-search-field .search-field .auto-search .wrapper,
+.name-search-field .search-field .auto-search .wrapper,
+.material-search-field .search-field .auto-search .wrapper,
+.species-search-field .search-field .auto-search .wrapper {
+    position: relative;
+    z-index: inherit;
+    background-color: lightgray;
+    border-color: transparent;
+}
+
+.creator-search-field .search-field .auto-search .wrapper:hover,
+.name-search-field .search-field .auto-search .wrapper:hover,
+.material-search-field .search-field .auto-search .wrapper:hover,
+.species-search-field .search-field .auto-search .wrapper:hover {
+    position: relative;
+    z-index: inherit;
+    border-color: grey;
+}
+.creator-search-field .search-field .auto-search .wrapper:focus-within,
+.name-search-field .search-field .auto-search .wrapper:focus-within,
+.material-search-field .search-field .auto-search .wrapper:focus-within,
+.species-search-field .search-field .auto-search .wrapper:focus-within {
+    position: relative;
+    z-index: inherit;
+    border-color: grey;
+    color: grey;
+}
+
+
+
+.gallery-container {
+    color: black;
+    margin-left: 10px;
+    margin-right: 10px;
+    max-width: 800px;
+    min-width: 200px;
+}
+
+h1 {
+    margin-left: 10px;
+}
+
+.creator-fieldset {
+    border-color: lightgray;
+}
+.name-fieldset {
+    border-color: lightgray;
+}
+
+.material-fieldset {
+    border-color: lightgray;
+}
+.species-fieldset {
+    border-color: lightgray;
+}
+
+
+
+.gallery-image:hover {
+    border-left-style: solid;
+    border-right-style: solid;
+    border-color: white;
+}

@@ -1,0 +1,36 @@
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+    max-width: 38em;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.delete-button, .add-button-enabled, .add-button-disabled {
+    background-color: lightgray;
+    min-height: 40px;
+    max-width: 9em;
+    padding: 10px 15px;
+    border: none;
+    color: white;
+    margin-top: 5px;
+    cursor: pointer;
+    word-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+}
+
+.add-button-enabled {
+    background-color: green;
+}
+
+.add-button-disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
+
+.delete-button:hover {
+    background-color: red;
+}

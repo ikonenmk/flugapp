@@ -1,0 +1,132 @@
+
+.accordion-container {
+    max-width: 40em;
+    margin-bottom: 1em;
+    padding: 0;
+    color: black;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-top: 0;
+}
+
+.accordion-card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        max-width: 38em;
+}
+
+.profile-container {
+    max-width: 40em;
+    padding: 0;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-top:1em;
+    color: black;
+}
+
+.profile-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    max-width: 38em;
+}
+
+.profile-image-container {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    max-width: 37em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 0.5em;
+}
+.profile-image {
+
+    height: 225px;
+    width: 300px;
+    background-position: center;
+    margin: 0.5em;
+}
+
+.social-media-container {
+    max-width: 38em;
+    margin-top: 0em;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.instagram-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 1;
+}
+.youtube-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 1;
+}
+.youtube-button-container {
+    align-self: stretch;
+}
+.instagram-button-container {
+    align-self: stretch;
+}
+
+.edit-fields {
+    display: flex;
+    padding-bottom: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    max-width: 38em;
+}
+
+.youtube-edit-field {
+}
+.instagram-edit-field {
+}
+h3 {
+    margin-bottom: 0.2em;
+    text-align: center;
+}
+
+input {
+    background-color: lightgray;
+    color: black;
+    border-style: solid;
+    border-color: transparent;
+    border-radius: 4px;
+    outline: none;
+    min-height: 2em;
+}
+
+input:hover,
+input:focus {
+    border-color: grey;
+    box-shadow: rgba(32, 33, 36, 0.28) 0px 1px 6px 0px;
+}
+
+.photo-button-container {
+    max-width: 38em;
+    margin-top: 0em;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.info-text {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-style: italic;
+    font-size: smaller;
+}

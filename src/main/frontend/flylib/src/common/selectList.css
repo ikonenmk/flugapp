@@ -1,0 +1,22 @@
+.select-type {
+    background-color: white;
+    color: black;
+    border-style: solid;
+    border-color: transparent;
+    border-radius: 25px;
+    min-width: 120px;
+    min-height: 30px;
+    padding: 10px;
+    font-size: 16px;
+    font-family: Arial;
+    margin: 5px;
+}
+
+.select-type:hover {
+    border-color: #dfe1e5;
+    box-shadow: rgba(32, 33, 36, 0.28) 0px 1px 6px 0px;
+}
+
+.for-sale-checkbox {
+    background-color: white;
+}

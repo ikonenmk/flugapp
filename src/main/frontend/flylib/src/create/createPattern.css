@@ -1,0 +1,194 @@
+
+.create-form {
+    color: black;
+    padding: 5px;
+    max-width: 40em;
+}
+.form-input-text {
+    background-color: lightgray;
+    color: black;
+    border-style: solid;
+    border-color: transparent;
+    padding: 5px;
+    border-radius: 4px;
+    min-height: 3em;
+    min-width: 95%;
+    outline: none;
+    font-size: 16px;
+    font-family: Arial, serif;
+    margin: 5px;
+}
+.form-input-text:hover,
+.form-input-text:focus {
+    border-color: grey;
+    box-shadow: rgba(32, 33, 36, 0.28) 0px 1px 6px 0px;
+}
+.form-textarea{
+    background-color: lightgray;
+    color: black;
+    padding: 5px;
+    min-width: 95%;
+    min-height: 140px;
+    font-size: 16px;
+    font-family: Arial;
+    outline: none;
+    border-color: transparent;
+    resize: vertical;
+}
+.form-textarea:hover,
+.form-textarea:focus {
+    border-color: grey;
+    box-shadow: rgba(32, 33, 36, 0.28) 0px 1px 6px 0px;
+}
+
+.select-type {
+    background-color: lightgray;
+    color: black;
+    border-style: solid;
+    border-color: transparent;
+    padding: 5px;
+    border-radius: 4px;
+    min-height: 3em;
+    min-width: 98%;
+    outline: none;
+    font-size: 16px;
+    font-family: Arial, serif;
+    margin: 5px;
+}
+
+.select-type:hover,
+.select-type:focus {
+    border-color: grey;
+    box-shadow: rgba(32, 33, 36, 0.28) 0px 1px 6px 0px;
+}
+ul {
+    background-color: white;
+}
+
+fieldset {
+    border-color: lightgray;
+    border-radius: 5px;
+}
+.hook-container {
+    display: grid;
+    gap: 5px;
+    margin: 5px;
+}
+
+#drop-zone {
+    border: 2px dashed lightgray;
+    border-radius: 5px;
+    width: 18em;
+    aspect-ratio: 4 / 3;
+    padding: 2px;
+
+}
+#drop-zone:hover {
+    border-color: grey;
+}
+
+.button-enabled {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    height: 4em;
+    font-size: 1em;
+    background-color: grey;
+    border: none;
+    min-width: 18em;
+    color: white;
+    cursor: pointer;
+}
+.button-enabled:hover {
+    border-color: grey;
+    color: black;
+    background-color: lightgrey;
+}
+
+.button-disabled {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    height: 4em;
+    font-size: 1em;
+    background-color: lightgray;
+    border: none;
+    min-width: 18em;
+    color: white;
+    cursor: not-allowed;
+}
+.button-disabled:hover {
+    border-color: lightgray;
+    background-color: lightgray;
+}
+.add-button-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.for-sale-container {
+    display: flex;
+    flex-direction: row;
+}
+.for-sale-container label {
+    margin-top: 0.4em;
+    margin-right: 1em;
+}
+.for-sale-container input {
+    margin-top: 0.5em;
+    background: grey;
+}
+.for-sale-container input {
+    margin-top: 0.5em;
+    background: grey;
+}
+
+.checkbox-wrapper {
+    display: inline-block;
+    padding: 4px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: border 0.2s ease;
+}
+.checkbox-wrapper:hover {
+    border: 2px solid grey;
+}
+
+.for-sale-checkbox {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.for-sale-checkbox:checked {
+    color: white;
+    background-color: green;
+    border-color: cadetblue;
+}
+
+.for-sale-container-dropdown {
+   display: flex;
+    flex-direction: column;
+}
+
+.material-search-field .search-field .auto-search {
+    z-index: 9999;
+}
+
+
+.species-search-field .search-field .auto-search {
+    z-index: 9997;
+}
+
+.species-search-field .search-field .auto-search .wrapper:hover {
+   border-color: grey;
+}
+.material-search-field .search-field .auto-search .wrapper:hover {
+    border-color: grey;
+}
+
+.image-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+}

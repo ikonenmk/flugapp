@@ -1,0 +1,98 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 500;
+
+  color: rgba(255, 255, 255, 0.87);
+  background-color: white;
+  border-color: grey;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2.5em;
+  line-height: 1.1;
+}
+
+/* Set banner image
+*/
+@media screen and (max-width: 768px) {
+  .rubric {
+    color: white;
+    text-shadow: 2px 2px green;
+    display: flex;
+    width: 100%;
+    height: 20%;
+    min-height: 100px;
+    overflow: hidden;
+    background-image: url('./utils/banner.jpg');
+    background-position: left center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: 0 2px 6px 0 black;
+  }
+}
+
+
+@media screen and (min-width: 769px) {
+  .rubric {
+    color: white;
+    text-shadow: 2px 2px green;
+    display: flex;
+    width: 100%;
+    height: 20%;
+    min-height: 200px;
+    overflow: hidden;
+    background-image: url('./utils/banner.jpg');
+    background-position: left center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: 0 2px 6px 0 black;
+  }
+}
+
+.rubric-text {
+  max-width: 40em;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  margin-top: 0;
+}
+.rubric h1 {
+  max-width: 40em;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  align-content: flex-end;
+}
+
+
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
