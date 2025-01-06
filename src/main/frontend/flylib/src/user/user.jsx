@@ -1,6 +1,6 @@
 import UserAccordion from "./userAccordion.jsx";
 import "./user.css";
-import {NavLink, useParams} from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
 import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import EditIcon from '@mui/icons-material/Edit';
@@ -16,9 +16,13 @@ import {InputValidation} from "../utils/inputValidation.jsx";
 import AddIcon from "@mui/icons-material/Add";
 import ImageResize from "../utils/imageResize.jsx";
 import defaultProfileImage from '../utils/defprof.jpg';
+import {useAuth, useAuthDispatch} from "../contexts/authContext.jsx";
 
 export default function User() {
     // Auth
+    // Read from AuthContext
+    const userStatus = useAuth();
+    const dispatch = useAuthDispatch();
     const token = Cookies.get("token");
     const config = {
         headers: {
@@ -44,6 +48,9 @@ export default function User() {
     const imageRef = useRef();
     const allowedImageTypes = ['image/png', 'image/gif', 'image/jpeg', 'image/bmp']
     const [profilePictureChanged, setProfilePictureChanged] = useState(false);
+    // Navigate
+    const navigate = useNavigate();
+
     // Get username from server
     useEffect(() => {
         axios
@@ -61,8 +68,8 @@ export default function User() {
         if(username !== null || username !== "") {
             axios.get(`/api/user/getuserdata?username=${username}`,
                 config).then ((response) => {
-                    setUserData(response.data);
-                    setJoinDate(response.data.join_date.slice(0,10));
+                setUserData(response.data);
+                setJoinDate(response.data.join_date.slice(0,10));
             }).catch((error) => {
                 console.log("Axios request error: ", error);
             });
@@ -128,7 +135,7 @@ export default function User() {
         }
     }, [username])
     // Handle input changes
-   async function handleInput(e) {
+    async function handleInput(e) {
         const value = e.target.value;
         const position = e.target.id;
         if(value !== "") {
@@ -290,12 +297,35 @@ export default function User() {
         });
     }
 
+    async function handleDeleteAccountButtonClick() {
+        const result = window.confirm("If you click 'OK' your account and all added patterns will be deleted");
+        if (result) {
+            try {
+                const response= await axios
+                    .delete(`/api/user/delete?username=${activeUsername}`, {
+                        headers: { Authorization: `Bearer ${token}`
+                        },})
+                if(response.data.success === true) {
+                    alert("Your account has been deleted.")
+                    dispatch({ type: 'logout' });
+                    const userToken = Cookies.get('token');
+                    Cookies.remove('token', userToken, {expires: 7, secure: true, sameSite: 'Strict'});
+                    navigate('/');
+
+                } else {
+                    alert(response.data.message);
+                }
+            } catch(error) {
+                console.log("Axios error: ", error);
+            }
+        }
+    }
 
 
     return(
         <>
             <div className="rubric">
-                    <h1>{formattedUsername} Profile</h1>
+                <h1>{formattedUsername} Profile</h1>
             </div>
             <div className="profile-container">
                 <div className="profile-image-container">
@@ -316,19 +346,19 @@ export default function User() {
                                     onInput={uploadImage}
                                 />
                                 {userData.img_url !== "" && userData.img_url !== null ? (
-                                <Button
-                                    onClick={handleDeleteButtonClick}
-                                    variant="outlined"
-                                    startIcon={<DeleteIcon/>}
-                                    sx={{
-                                        color: "grey",
-                                        borderColor: "grey",
-                                        borderBlockColor: "grey",
-                                        margin: 0.5
-                                    }}
-                                >Delete picture</Button>
-                                ):(
-                                "")}
+                                    <Button
+                                        onClick={handleDeleteButtonClick}
+                                        variant="outlined"
+                                        startIcon={<DeleteIcon/>}
+                                        sx={{
+                                            color: "grey",
+                                            borderColor: "grey",
+                                            borderBlockColor: "grey",
+                                            margin: 0.5
+                                        }}
+                                    >Delete picture</Button>
+                                ) : (
+                                    "")}
 
                                 <Button
                                     onClick={handleButtonClick}
@@ -371,7 +401,7 @@ export default function User() {
                                         }}
                                     >
                                     </Button>
-                                ):(
+                                ) : (
                                     <Button
                                         id="location-done"
                                         onClick={(e) => toggleEdit(e)}
@@ -384,7 +414,7 @@ export default function User() {
                                         }}
                                     >
                                     </Button>
-                                    )
+                                )
 
                             ) : (
                                 isEditingInstagram === true || isEditingYoutube === true ? (
@@ -401,7 +431,7 @@ export default function User() {
                                         }}
                                     >
                                     </Button>
-                                ):(
+                                ) : (
                                     <Button
                                         id="location-edit"
                                         onClick={(e) => toggleEdit(e)}
@@ -414,7 +444,7 @@ export default function User() {
                                         }}
                                     >
                                     </Button>
-                                    )
+                                )
 
                             )
 
@@ -431,7 +461,7 @@ export default function User() {
                                 className="location-edit-input"
                                 onChange={(e) => handleInput(e)}
                             />
-                             <p className="error-text">{inputErrorMsg}</p>
+                            <p className="error-text">{inputErrorMsg}</p>
                         </>
                     ) : (
                         userData.location !== null && userData.location !== "" ? (
@@ -459,7 +489,7 @@ export default function User() {
                     <div className="social-media-container">
                         <div className="instagram-container">
                             <div className="instagram-button-container">
-                                {userData.instagram !== null && userData.instagram  !== "" ? (
+                                {userData.instagram !== null && userData.instagram !== "" ? (
                                     <a href={userData.instagram} target="_blank" rel="noopener noreferrer">
                                         <Button
                                             size="large"
@@ -496,7 +526,7 @@ export default function User() {
                                                 }}
                                             >
                                             </Button>
-                                        ):(
+                                        ) : (
                                             <Button
                                                 id="instagram-done"
                                                 onClick={(e) => toggleEdit(e)}
@@ -509,7 +539,7 @@ export default function User() {
                                                 }}
                                             >
                                             </Button>
-                                            )
+                                        )
 
                                     ) : (
                                         isEditingYoutube === true || isEditingLocation === true ? (
@@ -526,7 +556,7 @@ export default function User() {
                                                 }}
                                             >
                                             </Button>
-                                        ):(
+                                        ) : (
                                             <Button
                                                 id="instagram-edit"
                                                 onClick={(e) => toggleEdit(e)}
@@ -539,7 +569,7 @@ export default function User() {
                                                 }}
                                             >
                                             </Button>
-                                            )
+                                        )
 
                                     )
                                 ) : (
@@ -603,7 +633,7 @@ export default function User() {
                                                 }}
                                             >
                                             </Button>
-                                        ):(
+                                        ) : (
                                             <Button
                                                 id="youtube-done"
                                                 onClick={(e) => toggleEdit(e)}
@@ -616,7 +646,7 @@ export default function User() {
                                                 }}
                                             >
                                             </Button>
-                                            )
+                                        )
 
                                     ) : (
                                         isEditingInstagram === true || isEditingLocation === true ? (
@@ -633,7 +663,7 @@ export default function User() {
                                                 }}
                                             >
                                             </Button>
-                                        ):(
+                                        ) : (
                                             <Button
                                                 id="youtube-edit"
                                                 onClick={(e) => toggleEdit(e)}
@@ -646,7 +676,7 @@ export default function User() {
                                                 }}
                                             >
                                             </Button>
-                                            )
+                                        )
 
                                     )
 
@@ -684,7 +714,25 @@ export default function User() {
                     <h3>{formattedUsername} Patterns</h3>
                     <UserAccordion username={username}/>
                 </div>
+                <div className="delete-account-container">
+                    {activeUsername.toLowerCase() === username.toLowerCase() ? (
+                        <Button
+                            onClick={handleDeleteAccountButtonClick}
+                            variant="outlined"
+                            startIcon={<DeleteIcon/>}
+                            sx={{
+                                color: "grey",
+                                borderColor: "grey",
+                                borderBlockColor: "grey",
+                            }}
+                        >Delete Account</Button>
+                    ) : (
+                        ""
+                    ) }
+
+                </div>
             </div>
+
         </>
     )
 

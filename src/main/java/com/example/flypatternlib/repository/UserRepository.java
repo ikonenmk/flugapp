@@ -70,4 +70,8 @@ public interface UserRepository extends ListCrudRepository<User, Integer> {
 
     @Query("SELECT img_url FROM user_data ud WHERE ud.user = :username")
     String getImgUrl(String username);
+
+    @Modifying
+    @Query("DELETE FROM users WHERE username = :username")
+    void deleteUser(String username);
 }

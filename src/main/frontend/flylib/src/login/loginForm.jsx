@@ -30,8 +30,8 @@ export default function LoginForm() {
 
     // Handling change of username
     const handleUsername = (e) => {
-            setUsername(e.target.value);
-        }
+        setUsername(e.target.value);
+    }
     // Handling change of password
     const handlePassword = (e) => {
         setPassword(e.target.value);
@@ -43,24 +43,24 @@ export default function LoginForm() {
             // Check if user has accepted cookies before proceeding
             const hasAcceptedCookies = Cookies.get('consentCookie');
             if (hasAcceptedCookies === 'true') {
-                    // Post request to backend
-                    try {
-                        const response = await axios.post('/api/auth/token', {
-                            username: username,
-                            password: password
-                        });
-                        // Create cookie storing JWT
-                        const token = response.data;
-                        Cookies.set('token', token, {expires: 7, secure: true, sameSite: 'Strict'});
-                        //Change userStatus in AuthContext
-                        if (userStatus === 'unauthorized') {
-                            dispatch({ type: 'login' });
-                        }
-                    } catch (error) {
-                        console.log("Error: " +error);
-                        setLoginError(true);
-                        setLoginErrorMsg("Login failed. Please make sure to type in the correct username and password.");
+                // Post request to backend
+                try {
+                    const response = await axios.post('/api/auth/token', {
+                        username: username,
+                        password: password
+                    });
+                    // Create cookie storing JWT
+                    const token = response.data;
+                    Cookies.set('token', token, {expires: 7, secure: true, sameSite: 'Strict'});
+                    //Change userStatus in AuthContext
+                    if (userStatus === 'unauthorized') {
+                        dispatch({ type: 'login' });
                     }
+                } catch (error) {
+                    console.log("Error: " +error);
+                    setLoginError(true);
+                    setLoginErrorMsg("Login failed. Please make sure to type in the correct username and password.");
+                }
             } else {
                 alert("You must accept the use of cookies to login");
             }

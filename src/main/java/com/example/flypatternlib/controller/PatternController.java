@@ -63,7 +63,7 @@ public class PatternController {
     @DeleteMapping("/pattern/{pattern_id}")
     public ResponseEntity<ApiResponse> delete(@PathVariable Integer pattern_id) {
         try {
-            patternRepository.deleteById(pattern_id);
+            patternService.deleteById(pattern_id);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ApiResponse("Pattern deleted from database", true));
         } catch (Exception e) {
@@ -119,7 +119,7 @@ public class PatternController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Unexpected error occurred: " + e.getMessage());
-    }
+        }
     }
 
     // Find by name

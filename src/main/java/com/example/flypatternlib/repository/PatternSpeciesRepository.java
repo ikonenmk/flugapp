@@ -12,4 +12,7 @@ public interface PatternSpeciesRepository extends ListCrudRepository<PatternSpec
     // Find by patternId
     @Query("select * from pattern_species where pattern = :patternId")
     List<PatternSpecies> findByPatternId(Integer patternId);
+
+    @Query("SELECT * FROM pattern_species where species = :speciesId")
+    List<PatternSpecies> findBySpeciesId(Integer speciesId);
 }

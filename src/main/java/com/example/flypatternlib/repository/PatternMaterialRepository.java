@@ -1,6 +1,7 @@
 package com.example.flypatternlib.repository;
 
 import com.example.flypatternlib.model.PatternMaterial;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,4 +14,7 @@ import java.util.List;
 public interface PatternMaterialRepository extends ListCrudRepository<PatternMaterial, Integer> {
     @Query("select * from pattern_material m where m.pattern = :pattern_id")
     List<PatternMaterial> findByPatternId(@Param("pattern_id") Integer pattern_id);
+
+    @Query("select * from pattern_material m where m.material = :material_id")
+    List<PatternMaterial> findByMaterialId(@Param("material_id") Integer material_id);
 }

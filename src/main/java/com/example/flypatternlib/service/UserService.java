@@ -25,13 +25,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserPatternRepository userPatternRepository;
     private final PatternRepository patternRepository;
+    private final PatternManagementService patternManagementService;
 
-    public UserService(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder, UserRepository userRepository, UserPatternRepository userPatternRepository, PatternRepository patternRepository) {
+    public UserService(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder, UserRepository userRepository, UserPatternRepository userPatternRepository, PatternRepository patternRepository, PatternManagementService patternManagementService) {
         this.jdbcUserDetailsManager = jdbcUserDetailsManager;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.userPatternRepository = userPatternRepository;
         this.patternRepository = patternRepository;
+        this.patternManagementService = patternManagementService;
     }
 
     public void addUser(UserRegRequest loginRequest) {
@@ -47,7 +49,7 @@ public class UserService {
         String sql = "INSERT INTO user_emails (user, email) VALUES (?, ?)";
         assert jdbcUserDetailsManager.getJdbcTemplate() != null;
         jdbcUserDetailsManager.getJdbcTemplate().update(sql, loginRequest.username(), loginRequest.email());
-        
+
         // Add joined date to user data table
         LocalDateTime dateAndTime = LocalDateTime.now();
         String sqlString = "INSERT INTO user_data (user, join_date) VALUES (?, ?)";
@@ -85,8 +87,8 @@ public class UserService {
     // Method for looking up if a username exists, returns true or false
     public boolean findUser(String username) {
         try {
-           UserDetails user = jdbcUserDetailsManager.loadUserByUsername(username);
-           return true;
+            UserDetails user = jdbcUserDetailsManager.loadUserByUsername(username);
+            return true;
         } catch (UsernameNotFoundException error) {
             System.out.println(error.getMessage());
             return false;
@@ -182,6 +184,19 @@ public class UserService {
         } else {
             System.out.println("Data type not recognised");
         }
+    }
+
+    public void deleteByUserId(String username) {
+        // Get all pattern_ids of user added patterns
+        List<Pattern> addedPatterns = patternRepository.findCreatedByUserName(username);
+        // Delete patterns added by the user
+        if(!addedPatterns.isEmpty()) {
+            for (Pattern pattern : addedPatterns) {
+                patternManagementService.deleteById(pattern.getId());
+            }
+        }
+        // Delete user
+        userRepository.deleteUser(username);
     }
 
 

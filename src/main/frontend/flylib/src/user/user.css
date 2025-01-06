@@ -10,8 +10,8 @@
 }
 
 .accordion-card {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        max-width: 38em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    max-width: 38em;
 }
 
 .profile-container {
@@ -129,4 +129,12 @@ input:focus {
     padding: 0;
     font-style: italic;
     font-size: smaller;
+}
+
+.delete-account-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3em;
 }

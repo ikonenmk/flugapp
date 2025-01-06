@@ -1,12 +1,7 @@
 package com.example.flypatternlib.service;
 import com.example.flypatternlib.DTO.FlyTypeDTO;
-import com.example.flypatternlib.model.Material;
-import com.example.flypatternlib.model.Pattern;
-import com.example.flypatternlib.model.PatternObject;
-import com.example.flypatternlib.model.Species;
-import com.example.flypatternlib.repository.MaterialRepository;
-import com.example.flypatternlib.repository.PatternRepository;
-import com.example.flypatternlib.repository.SpeciesRepository;
+import com.example.flypatternlib.model.*;
+import com.example.flypatternlib.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,16 +9,22 @@ import java.util.*;
 @Service
 public class PatternService {
 
-    final PatternRepository patternRepository;
-    final SpeciesRepository speciesRepository;
-    final MaterialRepository materialRepository;
-    final UserService userService;
+    private final PatternRepository patternRepository;
+    private final SpeciesRepository speciesRepository;
+    private final MaterialRepository materialRepository;
+    private final UserService userService;
+    private final PatternMaterialRepository patternMaterialRepository;
+    private final PatternSpeciesRepository patternSpeciesRepository;
+    private final PatternManagementService patternManagementService;
 
-    public PatternService(PatternRepository repository, SpeciesRepository speciesRepository, MaterialRepository materialRepository, UserService userService) {
+    public PatternService(PatternRepository repository, SpeciesRepository speciesRepository, MaterialRepository materialRepository, UserService userService, PatternMaterialRepository patternMaterialRepository, PatternSpeciesRepository patternSpeciesRepository, PatternManagementService patternManagementService) {
         this.patternRepository = repository;
         this.speciesRepository = speciesRepository;
         this.materialRepository = materialRepository;
         this.userService = userService;
+        this.patternMaterialRepository = patternMaterialRepository;
+        this.patternSpeciesRepository = patternSpeciesRepository;
+        this.patternManagementService = patternManagementService;
     }
 
     //Find a pattern by fly type
@@ -125,5 +126,9 @@ public class PatternService {
 
     public List<String> findAllCreators() {
         return patternRepository.findAllCreators();
+    }
+
+    public void deleteById(Integer patternId) {
+        patternManagementService.deleteById(patternId);
     }
 }

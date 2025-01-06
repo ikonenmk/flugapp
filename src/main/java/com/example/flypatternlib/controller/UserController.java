@@ -171,5 +171,19 @@ public class UserController {
         System.out.println("typeOfData = " + typeOfData);
         System.out.println("Data = " + data);
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/delete")
+    ResponseEntity<ApiResponse> deleteUser(@RequestParam String username) {
+        System.out.println("Trying to delete, " + username);
+        try {
+            userService.deleteByUserId(username);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponse("User deleted", true));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("User could not be deleted: " +e.getMessage(), false));
+        }
+    }
 }
 
