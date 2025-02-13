@@ -25,7 +25,6 @@ export default function Restore() {
                 try {
                     const response = await axios.get(`/api/auth/restore?token=${restoretoken}`);
                     setRestoreTokenIsValid(response.data);
-                    console.log("token is? ", response.data)
                 } catch (error) {
                     console.error("Error validating restore token:", error);
                 }
@@ -37,7 +36,7 @@ export default function Restore() {
     // Get username connected to token
     useEffect(() => {
         const getUsername = async () => {
-            if (restoretoken) {
+            if (restoreTokenIsValid) {
                 try {
                     const response = await axios.get(`/api/auth/restore/email?token=${restoretoken}`);
                     setUsername(response.data);
@@ -47,7 +46,7 @@ export default function Restore() {
             }
         };
         getUsername();
-    }, [restoreTokenIsValid]);
+    }, []);
 
     // Input validation
     const handleInput = async (e) => {
@@ -71,7 +70,7 @@ export default function Restore() {
     }
     // Update password
     const handleSubmit = async (e) => {
-        if (e) {
+        e.preventDefault();
             try {
                 const update = await axios.post(
                     `/api/user/updatepassword?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
@@ -81,11 +80,10 @@ export default function Restore() {
                     setSubmitted(false);
                 }
                 } catch (error) {
-                console.log("Error: " + error);
+                setSubmitted(false);
                 setLoginError(true);
                 setLoginErrorMsg("Password change failed.");
                 }
-            }
         }
     // Function for minimizing the phone keyboard on enter hit
     function handleEnterClick(e) {

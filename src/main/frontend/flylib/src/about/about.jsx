@@ -19,8 +19,11 @@ export default function About() {
 
                 <p>With an account you can also use the <NavLink to="/create">upload</NavLink> function to share your own fly patterns.</p>
 
+                <p> If you have any questions or suggestions about improvements to the site, don't hesitate to send an
+                    email to <a href="mailto:flyxicon@gmail.com">flyxicon@gmail.com</a></p>
+
 
             </div>
         </>
-    );
+);
 }

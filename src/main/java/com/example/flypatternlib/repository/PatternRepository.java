@@ -59,4 +59,7 @@ public interface PatternRepository extends ListCrudRepository<Pattern, Integer> 
             "    ) AS max_query\n" +
             ") LIMIT 1")
     Integer getMostPopularPattern(String username);
+
+    @Query("SELECT * FROM pattern ORDER BY id DESC")
+    List<Pattern> findAllByIdDesc();
 }

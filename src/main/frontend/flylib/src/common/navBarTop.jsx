@@ -22,19 +22,7 @@ export default function NavBarTop() {
             Authorization: `Bearer ${token}`,
         },
     };
-    // Get username from server
-    useEffect(() => {
-        axios
-            .get('/api/auth/username', config)
-            .then((response) => {
-                setUsername(response.data.toLowerCase());
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log('Axios request error: ', error);
-                setLoading(false);
-            });
-    }, []);
+
     // Check user status for correct rendering of menu buttons
     useEffect(() => {
         async function validateToken() {
@@ -52,6 +40,24 @@ export default function NavBarTop() {
         validateToken();
     }, [dispatch, userStatus]);
 
+    // Get username from server
+    useEffect(() => {
+        if(userStatus === 'authorized') {
+            axios
+                .get('/api/auth/username', config)
+                .then((response) => {
+                    setUsername(response.data.toLowerCase());
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.log('Axios request error: ', error);
+                    setLoading(false);
+                });
+        } else {
+            setLoading(false);
+        }
+
+    }, [userStatus]);
 
     // Toggle hamburger menu
     function toggleMenu() {

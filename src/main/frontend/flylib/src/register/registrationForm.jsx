@@ -5,6 +5,7 @@ import RegisterButton from "./registerButton.jsx";
 import {Link} from "react-router-dom";
 import "./register.css";
 import Cookies from "js-cookie";
+import Modal from "./modal.jsx";
 
 export default function RegistrationForm() {
     //States for registration information
@@ -22,7 +23,9 @@ export default function RegistrationForm() {
     const [passErrorMsg, setPassErrorMsg] = useState();
     const [dataBaseError, setDataBaseError] = useState(false);
     const [dataBaseErrorMsg, setDataBaseErrorMsg] = useState("");
-
+    const [hasAccepted, setHasAccepted] = useState(false);
+    // States for modal window on submit
+    const [modalOpen, setModalOpen] = useState(false);
     //Handling change of username
     const handleInput = async (e) => {
         const inputString = e.target.value; // set inputString to input value
@@ -122,6 +125,17 @@ export default function RegistrationForm() {
         }
     }
 
+    // Function for handling click in accept checkbox
+    function handleCheckBoxChange() {
+        setHasAccepted(!hasAccepted);
+    }
+
+    // Function for toggling modal on click
+    function openModal(e) {
+        e.preventDefault();
+        setModalOpen(true);
+    }
+
     return (
         <>
             <div className="rubric">
@@ -170,9 +184,18 @@ export default function RegistrationForm() {
                                 onKeyDown={(e) => handleEnterClick(e)}
                             />
                             <p className="error-text">{passError ? passErrorMsg : ""}</p>
+                            <div className="checkBox-container">
+                                <input className="accept-checkbox" type="checkbox" onChange={handleCheckBoxChange} />
+                                I understand and accept the <a className="modal-link" onClick={(e) => openModal(e)}>Privacy Policy </a>
+                                {modalOpen ? (
+                                    <Modal setModalOpen={setModalOpen}/>
+                                ) : ("")}
+                            </div>
                             <RegisterButton emailError={emailError} passError={passError} databaseError={dataBaseError}
-                                            usernameError={usernameError} handleSubmit={handleSubmit}/>
+                                            usernameError={usernameError} handleSubmit={handleSubmit}
+                            hasAccepted={hasAccepted}/>
                             {dataBaseError ? <p className="error-text">{dataBaseErrorMsg}</p> : ""}
+
                         </form>
                     </div>
                     </>)

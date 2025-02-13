@@ -9,7 +9,10 @@ import './home.css';
 import {useAuth} from "../contexts/authContext.jsx";
 import {useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
-
+import {Pagination} from "@mui/material";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import Button from "@mui/material/Button";
+import InfoModal from "./infoModal.jsx";
 export default function Home() {
     // Read from AuthContext
     const userStatus = useAuth();
@@ -57,12 +60,30 @@ export default function Home() {
     // Pattern state (all user's patterns)
     const [userPatterns, setUserPatterns] = useState();
 
+    // Loading status state
+    const [isLoading, setIsLoading] = useState(true);
+    const [pageLoaded, setPageLoaded] = useState(false);
+
+    // State for info modal window
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalPosition, setModalPosition] = useState({top: 0, left: 0});
+    const [activeModalContent, setActiveModalContent] = useState("");
+
+    // Pagination
+    const itemsPerPage = 12;
+    const [page,  setPage] = useState(1);
+    const startIndex = (page - 1) * itemsPerPage; // Start index for current page
+    const endIndex = startIndex + itemsPerPage; // End index for current page
+    const currentItems = galleryItems.slice(startIndex, endIndex); // Select gallery items to show on current page
+
     // Get all patterns from DB
         useEffect(() => {
             axios
                 .get("/api/pattern/find")
                 .then((response) => {
                     setPatterns(response.data);
+                    setIsLoading(false);
+                    setPageLoaded(true);
                 })
                 .catch((error) => {
                     console.log('Axios request error: ', error);
@@ -115,6 +136,18 @@ export default function Home() {
             }
         }
         }, [username]);
+
+    // Increment counter for number of times page has been loaded
+    useEffect(() => {
+        if(pageLoaded === true) {
+            axios
+                .get('/api/count')
+                .then((response) => {console.log(response.data)})
+                .catch((error) => {
+                    console.log("Axios request error: ", error);
+                })
+        }
+    }, [pageLoaded]);
 
     // Function returning true if a patternId is in userPattern
     function checkIfAdded(patternId) {
@@ -229,6 +262,9 @@ export default function Home() {
 
     // Update gallery items based on filters
     function updateGallery(filteredPatterns) {
+        // Set pagination page to first page
+        setPage(1);
+
         const filters = filter[0];
         let updatedFilter = patterns;
         // Apply creator filter
@@ -366,6 +402,21 @@ export default function Home() {
         navigate(`/pattern/${patternId}`);
     }
 
+    // Function for toggeling info modal windows
+    function openModal(e, content) {
+        // get position of button
+        const buttonPos = e.target.getBoundingClientRect();
+        setModalPosition({
+            top: buttonPos.top,
+            left: buttonPos.left,
+        });
+        // Disable scroll
+        document.body.classList.add("no-scroll");
+        // Set modal content and open
+        setActiveModalContent(content);
+        setModalOpen(true);
+    }
+
 
     return (
         <>
@@ -375,34 +426,126 @@ export default function Home() {
             <div className="gallery-container">
                 <div className="filter-container">
                     <fieldset className="creator-fieldset">
-                        <legend>Creator</legend>
+                        <legend>
+                            Creator
+                            <Button
+                                onClick={(e) => openModal(e,
+                                    "To search for flies created by a certain user. Type in the username in this field.")}
+                                size="medium"
+                                className="info-button"
+                                startIcon={<InfoOutlinedIcon/>}
+                                sx={{
+                                    color: 'grey',
+                                    borderColor: 'lightgrey',
+                                    minWidth: 'unset', // Remove default min-width
+                                    margin: '0 0 0 4px', // Reduce left margin
+
+                                }}
+                            />
+
+                        </legend>
                         <div className="creator-search-field">
                             <SearchField endpoint="creator" setSearchInput={setSearchInput}
                                          updateFilter={updateFilter}/>
                         </div>
                     </fieldset>
                     <fieldset className="name-fieldset">
-                        <legend>Name</legend>
+                        <legend>
+                           Name
+                           <Button
+                               onClick={(e) => openModal(e,
+                                   "To search for a fly pattern based on the name of the pattern. Type in the name in this field.")}
+                               size="medium"
+                               className="info-button"
+                               startIcon={<InfoOutlinedIcon/>}
+                               sx={{
+                                   color: 'grey',
+                                   borderColor: 'lightgrey',
+                                   minWidth: 'unset', // Remove default min-width
+                                   margin: '0 0 0 4px', // Reduce left margin
+
+                               }}
+                           />
+                        </legend>
                         <div className="name-search-field">
                             <SearchField endpoint="name" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
                         </div>
                     </fieldset>
                     <fieldset className="material-fieldset">
-                        <legend>Material</legend>
+                        <legend>Material
+                            <Button
+                                onClick={(e) => openModal(e,
+                                    "Type in the name of the material you want to search for and click on Add. You can add several materials.")}
+                                size="medium"
+                                className="info-button"
+                                startIcon={<InfoOutlinedIcon/>}
+                                sx={{
+                                    color: 'grey',
+                                    borderColor: 'lightgrey',
+                                    minWidth: 'unset', // Remove default min-width
+                                    margin: '0 0 0 4px', // Reduce left margin
+
+                                }}
+                            />
+                        </legend>
                         <div className="material-search-field">
                             <SearchField endpoint="material" setSearchInput={setSearchInput}
                                          updateFilter={updateFilter}/>
                         </div>
                     </fieldset>
                     <fieldset className="species-fieldset">
-                        <legend>Species</legend>
+                        <legend>
+                            Species
+                            <Button
+                                onClick={(e) => openModal(e,
+                                    "Type in the name of the species you want to search for and click on Add. You can add several species.")}
+                                size="medium"
+                                className="info-button"
+                                startIcon={<InfoOutlinedIcon/>}
+                                sx={{
+                                    color: 'grey',
+                                    borderColor: 'lightgrey',
+                                    minWidth: 'unset', // Remove default min-width
+                                    margin: '0 0 0 4px', // Reduce left margin
+
+                                }}
+                            />
+                        </legend>
                         <div className="species-search-field">
                             <SearchField endpoint="species" setSearchInput={setSearchInput}
                                          updateFilter={updateFilter}/>
                         </div>
                     </fieldset>
                     <fieldset>
-                        <legend>Type of fly</legend>
+                        <legend>
+                            Type of fly
+                            <Button
+                                onClick={(e) => openModal(e,
+                                    "Pick one of the available fly types in the dropdown list to filter patterns based on fly type.")}
+                                size="medium"
+                                className="info-button"
+                                startIcon={<InfoOutlinedIcon/>}
+                                sx={{
+                                    color: 'grey',
+                                    borderColor: 'lightgrey',
+                                    minWidth: 'unset', // Remove default min-width
+                                    margin: '0 0 0 4px', // Reduce left margin
+
+                                }}
+                            />
+                            {modalOpen ? (
+                                <InfoModal
+                                    className="info-modal"
+                                    modalPosition={modalPosition}
+                                    setModalOpen={setModalOpen}
+                                >
+                                    <span className="modal-text">{activeModalContent}</span>
+                                </InfoModal>
+                            ):(
+                                ""
+                            )
+                            }
+                        </legend>
                         <select className="select-type" id="type"
                                 onChange={(e) => updateFilter(e.target.value, "type")}
                                 defaultValue=""
@@ -413,73 +556,93 @@ export default function Home() {
                         </select>
                     </fieldset>
                 </div>
-                <div className="image-container">
-                    <ImageList sx={{
-                        minWidth: 200, maxWidth: 800, background: 'white', borderStyle: 'none',
-                        borderColor: '#213547'
-                    }} gap={3} cols={3}
-                               rowHeight={164}>
-                        {galleryItems.map((pattern) => (
-                            <ImageListItem
-                                key={pattern.id}
+                {isLoading ? (
+                    <div className="loading loading03">
+                        <span>L</span>
+                        <span>O</span>
+                        <span>A</span>
+                        <span>D</span>
+                        <span>I</span>
+                        <span>N</span>
+                        <span>G</span>
+                    </div>
+                ) : (
+                    <div className="image-container">
+                        <ImageList sx={{
+                            minWidth: 200, maxWidth: 800, background: 'white', borderStyle: 'none',
+                            borderColor: '#213547'
+                        }} gap={3} cols={3}
+                                   rowHeight={164}>
+                            {currentItems.map((pattern) => (
+                                <ImageListItem
+                                    key={pattern.id}
 
-                                className="gallery-image"
-                            >
-                                <img
-                                    srcSet={`/images/${pattern.img_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                                    src={`/images/${pattern.img_url}?w=164&h=164&fit=crop&auto=format`}
-                                    alt={pattern.name}
-                                    loading="lazy"
-                                    id={pattern.id}
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
-                                        cursor: 'pointer'
-                                    }}
-                                    onClick={() => onOpenClick(pattern.id)}
-                                />
+                                    className="gallery-image"
+                                >
+                                    <img
+                                        srcSet={`/images/${pattern.img_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                                        src={`/images/${pattern.img_url}?w=164&h=164&fit=crop&auto=format`}
+                                        alt={pattern.name}
+                                        loading="lazy"
+                                        id={pattern.id}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                            cursor: 'pointer'
+                                        }}
+                                        onClick={() => onOpenClick(pattern.id)}
+                                    />
 
 
-                                <ImageListItemBar
-                                    position="top"
-                                    title={pattern.name}
-                                    style={{
-                                        background: "rgba(128, 128, 128, 0.5)"
-                                    }}
-                                    actionIcon={
-                                        <div className="iconContainer"
-                                             style={{
-                                                 background: "grey"
+                                    <ImageListItemBar
+                                        position="top"
+                                        title={pattern.name}
+                                        style={{
+                                            background: "rgba(128, 128, 128, 0.5)"
+                                        }}
+                                        actionIcon={
+                                            <div className="iconContainer"
+                                                 style={{
+                                                     background: "grey"
 
-                                             }}
-                                        >
-                                            {userStatus === 'authorized' ? (
-                                                <IconButton
-                                                    aria-label={`add ${pattern.name}`}
-                                                    sx={{
-                                                        color: checkIfAdded(pattern.id) ? 'white' : 'white',
-                                                        backgroundColor: 'transparent',
-                                                        '&:hover':
-                                                            {
-                                                                color: checkIfAdded(pattern.id) ? 'white' : 'white',
-                                                                backgroundColor: 'transparent'
-                                                            },
-                                                        fontSize: '2em'
-                                                    }}
-                                                    onClick={() => onIconButtonClick(pattern.id)}
-                                                > {checkIfAdded(pattern.id) ? ("x") : ("+")}
-                                                </IconButton>
-                                            ) : ("")}
-                                        </div>
+                                                 }}
+                                            >
+                                                {userStatus === 'authorized' ? (
+                                                    <IconButton
+                                                        aria-label={`add ${pattern.name}`}
+                                                        sx={{
+                                                            color: checkIfAdded(pattern.id) ? 'white' : 'white',
+                                                            backgroundColor: 'transparent',
+                                                            '&:hover':
+                                                                {
+                                                                    color: checkIfAdded(pattern.id) ? 'white' : 'white',
+                                                                    backgroundColor: 'transparent'
+                                                                },
+                                                            fontSize: '2em'
+                                                        }}
+                                                        onClick={() => onIconButtonClick(pattern.id)}
+                                                    > {checkIfAdded(pattern.id) ? ("x") : ("+")}
+                                                    </IconButton>
+                                                ) : ("")}
+                                            </div>
 
-                                    }
-                                />
+                                        }
+                                    />
 
-                            </ImageListItem>
-                        ))}
-                    </ImageList>
-                </div>
+                                </ImageListItem>
+                            ))}
+                        </ImageList>
+                        <Pagination
+                            count={Math.ceil(galleryItems.length / itemsPerPage)}
+                            page={page}
+                            onChange={(event, value) => setPage(value)}
+                            color="grey"
+                            sx={{mt: 2}}
+                        />
+                    </div>
+                )}
+
             </div>
         </>
     )

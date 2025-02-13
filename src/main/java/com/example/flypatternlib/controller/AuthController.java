@@ -73,8 +73,8 @@ public class AuthController {
         // Send email with token link
         System.out.println("token is: " + tokenString);
         String subject = "Restore your password";
-        String restorationLink = "https://flylib.duckdns.org/restore/"+tokenString;
-        String text = "You have requested a password restoration link. Click on this link to restore your password: " + restorationLink;
+        String restorationLink = "https://flyxicon.com/restore/"+tokenString;
+        String text = "You have requested a password restoration link to Flyxicon.com. Click on this link to restore your password: " + restorationLink;
         emailService.sendSimpleMessage(email, subject, text);
     }
 

@@ -8,6 +8,7 @@ import com.example.flypatternlib.repository.PatternRepository;
 import com.example.flypatternlib.repository.SpeciesRepository;
 import com.example.flypatternlib.response.ApiResponse;
 import com.example.flypatternlib.service.PatternService;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +41,7 @@ public class PatternController {
     // Find all patterns in database
     @GetMapping("/pattern/find")
     public List<Pattern> findAll() {
-
-        return patternRepository.findAll();
+        return patternRepository.findAllByIdDesc();
     }
 
     // Add a new pattern
@@ -119,7 +119,7 @@ public class PatternController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Unexpected error occurred: " + e.getMessage());
-        }
+    }
     }
 
     // Find by name

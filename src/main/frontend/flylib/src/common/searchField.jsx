@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {ReactSearchAutocomplete} from "react-search-autocomplete";
 import Cookies from "js-cookie";
@@ -16,7 +16,8 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
     // States for storing search field input
     const [searchString, setSearchString] = useState("");
     const [searchStringArray, setSearchStringArray] = useState([]);
-
+    // Refs for search input fields
+    const searchRef = useRef(null);
     // Load available data into const availableData
     useEffect(() => {
         axios
@@ -132,6 +133,10 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
                 });
             }
         }
+        // clear search field
+        if(searchRef.current) {
+            searchRef.current.clear();
+        }
         }
 
     // Update searchInput in parent component
@@ -140,7 +145,7 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
     }, [searchStringArray]);
 
     //Delete item from list
-    const handleButtonClick = (value) => {
+    const handleDeleteButtonClick = (value) => {
         // Remove string from searchStringArray equal to value
         const filteredArray = searchStringArray.filter(
             (element) => element.toLowerCase() !== value.toLowerCase());
@@ -160,6 +165,7 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
             <>
                 <div className="search-field">
                 <ReactSearchAutocomplete items={availableData}
+                                         ref={searchRef}
                                          id={endpoint}
                                          onSearch={(item) => handleSearch(item, endpoint)}
                                          onSelect={(item) => {
@@ -194,7 +200,7 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
                     }
 
                     {searchStringArray.map((value, index) => (
-                        <button className="delete-button" key={`${value}-${index}`} onClick={() => handleButtonClick(value)}>
+                        <button className="delete-button" key={`${value}-${index}`} onClick={() => handleDeleteButtonClick(value)}>
                             {value}
                         </button>
                     ))}

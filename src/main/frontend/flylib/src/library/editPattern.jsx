@@ -343,7 +343,6 @@ export default function EditPattern({pattern, speciesData, materialsData, setIsE
     // Function for storing image on submit and returning image name to be used for img url
     const storeImage = async () => {
         const files = fileRef.current.files;
-        console.log("files: ", files);
         let imageUrl = "";
         // if a new file has been chosen
         if(files.length <= 0) {
@@ -405,7 +404,7 @@ export default function EditPattern({pattern, speciesData, materialsData, setIsE
             "hook_size_from": patternState.hook_size_from,
             "hook_size_to": patternState.hook_size_to,
             "type": patternState.type,
-            "img_url": patternState.img_url,
+            "img_url": imgUrl,
             "for_sale": patternState.for_sale,
             "price" : patternState.price,
             "created_by_user" : username,
@@ -417,10 +416,6 @@ export default function EditPattern({pattern, speciesData, materialsData, setIsE
         const materialsString = materials.join(",");
 
         // Construct query string
-        console.log("Making api call, using patternId = ", pattern.id);
-        console.log("speciesString = ", speciesString);
-        console.log("materialsString = ", materialsString);
-        console.log("patternData is =", patternData);
         const queryString = `speciesArray=${encodeURIComponent(speciesString)}&materialsArray=${encodeURIComponent(materialsString)}`;
         axios
             .put(`/api/pattern/${pattern.id}?${queryString}`, patternData,{
@@ -558,7 +553,8 @@ export default function EditPattern({pattern, speciesData, materialsData, setIsE
                             ""
                     }
                 </fieldset>
-                <fieldset>
+                {/*
+                 <fieldset>
                     <div className="for-sale-container">
                         <label>For sale</label>
                         <div className="checkbox-wrapper">
@@ -577,7 +573,8 @@ export default function EditPattern({pattern, speciesData, materialsData, setIsE
                             :
                             ""
                     }
-                </fieldset>
+                </fieldset>*/}
+
                 <div className="add-button-container">
                     <button disabled={isButtonDisabled} className={isButtonDisabled ? 'button-disabled' : 'button-enabled'} onClick={handleSubmit}>Upload pattern</button>
                 </div>

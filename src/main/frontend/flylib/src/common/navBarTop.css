@@ -10,14 +10,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100px;
+    height: 120px;
     padding: 0;
     overflow: visible;
     border-bottom: 1px solid white;
     width: 100%;
 }
 .large-menu ul {
-    height: 100px;
+    height: 100%;
     display: grid;
     grid-auto-flow: column;
     list-style-type: none;
@@ -30,15 +30,15 @@
 }
 
 .logo {
-    height: 150px; /* Match this to your menu height or desired size */
-    width: 177px; /* Maintain aspect ratio */
+    height: 150px;
+    width: 177px;
     display: block;
     padding-top: 0em;
     padding-left: 0.5em;
 }
 
 .menu-link-button {
-    height: 100px;
+    height: 120px;
     display: flex;
     align-items: center;
 
@@ -151,7 +151,7 @@ body.no-scroll {
     align-items: center;
     text-decoration: none;
     font-size: 1.5rem;
-    padding-bottom: 60px;
+    padding-bottom: 100px;
 }
 
 .hamburger-menu ul li a:hover {
@@ -200,7 +200,7 @@ body.no-scroll {
     .about-button {
         display: flex;
     }
-}
+    }
 
 
 @media screen and (min-width: 769px) {

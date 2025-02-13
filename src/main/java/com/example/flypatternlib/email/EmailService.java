@@ -12,7 +12,7 @@ public class EmailService {
 
     public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("EMAILHIDDEN");
+        message.setFrom("flyxicon@gmail.com");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);

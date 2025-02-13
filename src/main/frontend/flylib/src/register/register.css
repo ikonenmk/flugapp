@@ -71,3 +71,20 @@
     font-size: 1em;
     font-style: italic;
 }
+
+.checkBox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+.modal-link {
+    cursor: pointer;
+    margin-left: 0.3rem;
+}
+
+.accept-checkbox {
+    cursor: pointer;
+    font-size: 0.5rem;
+    margin-right: 1rem;
+}

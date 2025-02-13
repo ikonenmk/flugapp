@@ -68,8 +68,8 @@ export default function User() {
         if(username !== null || username !== "") {
             axios.get(`/api/user/getuserdata?username=${username}`,
                 config).then ((response) => {
-                setUserData(response.data);
-                setJoinDate(response.data.join_date.slice(0,10));
+                    setUserData(response.data);
+                    setJoinDate(response.data.join_date.slice(0,10));
             }).catch((error) => {
                 console.log("Axios request error: ", error);
             });
@@ -135,7 +135,7 @@ export default function User() {
         }
     }, [username])
     // Handle input changes
-    async function handleInput(e) {
+   async function handleInput(e) {
         const value = e.target.value;
         const position = e.target.id;
         if(value !== "") {

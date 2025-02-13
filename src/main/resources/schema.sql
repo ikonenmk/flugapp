@@ -90,8 +90,8 @@ CREATE TABLE IF NOT EXISTS user_emails (
     );
 
 CREATE TABLE IF NOT EXISTS user_data (
-                                         id INT PRIMARY KEY AUTO_INCREMENT,
-                                         user VARCHAR (100) not null,
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user VARCHAR (100) not null,
     join_date TIMESTAMP NOT NULL,
     location VARCHAR (255),
     instagram VARCHAR (255),
@@ -105,3 +105,14 @@ CREATE TABLE IF NOT EXISTS restore_token (
                                              email VARCHAR (255) not null,
     token_string VARCHAR(500) not null
     );
+
+CREATE TABLE IF NOT EXISTS page_visit_counter (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    last_time_visited TIMESTAMP NOT NULL,
+    number_of_visits INT NOT NULL
+
+);
+
+INSERT INTO page_visit_counter (last_time_visited, number_of_visits)
+SELECT CURRENT_TIMESTAMP, 1
+WHERE NOT EXISTS (SELECT 1 FROM page_visit_counter LIMIT 1);

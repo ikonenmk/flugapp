@@ -49,7 +49,7 @@ public class UserService {
         String sql = "INSERT INTO user_emails (user, email) VALUES (?, ?)";
         assert jdbcUserDetailsManager.getJdbcTemplate() != null;
         jdbcUserDetailsManager.getJdbcTemplate().update(sql, loginRequest.username(), loginRequest.email());
-
+        
         // Add joined date to user data table
         LocalDateTime dateAndTime = LocalDateTime.now();
         String sqlString = "INSERT INTO user_data (user, join_date) VALUES (?, ?)";
@@ -64,10 +64,7 @@ public class UserService {
 
         // Load user
         UserDetails existingUser = jdbcUserDetailsManager.loadUserByUsername(username);
-        System.out.print("username" +username);
-        System.out.print("newPassword" +newPassword);
         String newToken = passwordEncoder.encode(newPassword);
-        System.out.print("token: " + newToken);
 
 
         // Create new object with updated password
@@ -87,8 +84,8 @@ public class UserService {
     // Method for looking up if a username exists, returns true or false
     public boolean findUser(String username) {
         try {
-            UserDetails user = jdbcUserDetailsManager.loadUserByUsername(username);
-            return true;
+           UserDetails user = jdbcUserDetailsManager.loadUserByUsername(username);
+           return true;
         } catch (UsernameNotFoundException error) {
             System.out.println(error.getMessage());
             return false;
