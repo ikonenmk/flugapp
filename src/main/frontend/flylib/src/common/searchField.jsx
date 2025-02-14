@@ -16,8 +16,8 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
     // States for storing search field input
     const [searchString, setSearchString] = useState("");
     const [searchStringArray, setSearchStringArray] = useState([]);
-    // Refs for search input fields
-    const searchRef = useRef(null);
+    // State to force re-render of component on add button click (deletes input text)
+    const [searchKey, setSearchKey] = useState(0);
     // Load available data into const availableData
     useEffect(() => {
         axios
@@ -40,7 +40,7 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
             if(endpoint === "species") {
                 itemData = speciesData;
             }
-                // Add materials or species to itemdata
+            // Add materials or species to itemdata
             let itemString;
             if(itemData) {
                 for (let i = 0; i < itemData.length; i++) {
@@ -56,9 +56,10 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
         }
     }, []);
 
+
     //Handel input in search field
     const handleSearch = (item, itemType) => {
-         setIsAddButtonDisabled(false)
+        setIsAddButtonDisabled(false)
         // If endpoint is material or species
         if(itemType === "material" || itemType === "species") {
             if(item.length > 100) {
@@ -103,10 +104,12 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
         if (updateFilter) {
             // If parent component is gallery, only allow adding of existing materials (objects)
             if(typeof searchItem === 'object' && searchItem !== null && 'id' in searchItem) {
-                updateFilter(searchItem.id, endpoint)
-                const updatedArray = [...searchStringArray, searchItem.name];
-                setSearchStringArray(updatedArray);
-                setSearchInput(updatedArray, endpoint);
+                if(!searchStringArray.some(item => item.toLowerCase() === searchItem.name)) {
+                    updateFilter(searchItem.id, endpoint)
+                    const updatedArray = [...searchStringArray, searchItem.name];
+                    setSearchStringArray(updatedArray);
+                    setSearchInput(updatedArray, endpoint);
+                }
             }
         } else {
             // if search item is a string
@@ -133,16 +136,8 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
                 });
             }
         }
-        // clear search field
-        if(searchRef.current) {
-            searchRef.current.clear();
-        }
-        }
-
-    // Update searchInput in parent component
-    useEffect(() => {
-        setSearchInput(searchStringArray, endpoint);
-    }, [searchStringArray]);
+        clearInputField();
+    }
 
     //Delete item from list
     const handleDeleteButtonClick = (value) => {
@@ -161,11 +156,17 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
         }
     };
 
-        return (
-            <>
-                <div className="search-field">
+    // Clear input field
+    function clearInputField() {
+        setSearchString("");
+        setSearchKey((prevKey) => prevKey + 1); // Change key to force re-render
+    }
+
+    return (
+        <>
+            <div className="search-field">
                 <ReactSearchAutocomplete items={availableData}
-                                         ref={searchRef}
+                                         key={searchKey} // Force re-render when add btn is clicked and searchKey changes
                                          id={endpoint}
                                          onSearch={(item) => handleSearch(item, endpoint)}
                                          onSelect={(item) => {
@@ -183,29 +184,30 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
                                          }}
                                          className="auto-search"
                                          placeholder={`Type in ${endpoint}`}
+                                         onClear={clearInputField}
 
                 />
-                    {materialSpeciesError ? (
-                        <p className="error-text">
-                            Input can be max 100 characters long.
-                        </p>) : ("")}
+                {materialSpeciesError ? (
+                    <p className="error-text">
+                        Input can be max 100 characters long.
+                    </p>) : ("")}
 
-                </div>
-                <div className="button-container">
-                    { endpoint === "name" || endpoint === "creator" ? (
-                        ""
-                    ) : (
-                        <button className={isAddButtonDisabled ? 'add-button-disabled' : 'add-button-enabled'} onClick={handleAddButton} disabled={isAddButtonDisabled}>Add</button>
-                    )
-                    }
+            </div>
+            <div className="button-container">
+                { endpoint === "name" || endpoint === "creator" ? (
+                    ""
+                ) : (
+                    <button className={isAddButtonDisabled ? 'add-button-disabled' : 'add-button-enabled'} onClick={handleAddButton} disabled={isAddButtonDisabled}>Add</button>
+                )
+                }
 
-                    {searchStringArray.map((value, index) => (
-                        <button className="delete-button" key={`${value}-${index}`} onClick={() => handleDeleteButtonClick(value)}>
-                            {value}
-                        </button>
-                    ))}
-                </div>
-            </>
+                {searchStringArray.map((value, index) => (
+                    <button className="delete-button" key={`${value}-${index}`} onClick={() => handleDeleteButtonClick(value)}>
+                        {value}
+                    </button>
+                ))}
+            </div>
+        </>
 
-        )
+    )
 }

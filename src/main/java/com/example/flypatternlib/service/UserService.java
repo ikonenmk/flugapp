@@ -124,7 +124,7 @@ public class UserService {
 
     public String getYoutube(String username) {
         String youtube = userRepository.getYoutube(username);
-        // Return empty string if value of insta is "null" or empty
+        // Return empty string if value of youtube is "null" or empty
         if (Objects.equals(youtube, "null")) {
             return "";
         } else {
@@ -134,7 +134,7 @@ public class UserService {
 
     public String getLocation(String username) {
         String loc = userRepository.getLocation(username);
-        // Return empty string if value of insta is "null"
+        // Return empty string if value of location  is "null"
         if (Objects.equals(loc, "null")) {
             return "";
         } else {

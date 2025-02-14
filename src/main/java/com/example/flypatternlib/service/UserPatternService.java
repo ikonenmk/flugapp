@@ -13,7 +13,6 @@ public class UserPatternService {
 
     public int timesAdded(int pattern_id) {
         int number = patternRepository.countUsers(pattern_id);
-        System.out.println("number is = " +number);
         return number;
     }
 }
