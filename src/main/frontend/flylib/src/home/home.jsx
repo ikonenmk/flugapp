@@ -77,18 +77,18 @@ export default function Home() {
     const currentItems = galleryItems.slice(startIndex, endIndex); // Select gallery items to show on current page
 
     // Get all patterns from DB
-        useEffect(() => {
-            axios
-                .get("/api/pattern/find")
-                .then((response) => {
-                    setPatterns(response.data);
-                    setIsLoading(false);
-                    setPageLoaded(true);
-                })
-                .catch((error) => {
-                    console.log('Axios request error: ', error);
-                })
-        }, []);
+    useEffect(() => {
+        axios
+            .get("/api/pattern/find")
+            .then((response) => {
+                setPatterns(response.data);
+                setIsLoading(false);
+                setPageLoaded(true);
+            })
+            .catch((error) => {
+                console.log('Axios request error: ', error);
+            })
+    }, []);
 
     // Set type selectList data
     useEffect(() => {
@@ -135,9 +135,9 @@ export default function Home() {
                 console.log("No URL existing");
             }
         }
-        }, [username]);
+    }, [username]);
 
-    // Increment counter for number of times page has been loaded
+    //Increment counter for number of times page has been loaded
     useEffect(() => {
         if(pageLoaded === true) {
             axios
@@ -305,7 +305,7 @@ export default function Home() {
         // Apply type filter
         if (filters.typeFilter.type.length > 0) {
             updatedFilter = updatedFilter.filter(pattern =>
-            pattern.type.toLowerCase().includes(filters.typeFilter.type.toLowerCase()));
+                pattern.type.toLowerCase().includes(filters.typeFilter.type.toLowerCase()));
         }
 
         // Set gallery items to the filtered patterns
@@ -381,7 +381,7 @@ export default function Home() {
                             },})
                     if(response.data.success === true) {
 
-                            setUserPatterns(prevUserPatterns => prevUserPatterns.filter(pattern => pattern.id !== patternId));
+                        setUserPatterns(prevUserPatterns => prevUserPatterns.filter(pattern => pattern.id !== patternId));
                         // Re-filter gallery items
                         updateGallery();
                     } else {
@@ -451,21 +451,21 @@ export default function Home() {
                     </fieldset>
                     <fieldset className="name-fieldset">
                         <legend>
-                           Name
-                           <Button
-                               onClick={(e) => openModal(e,
-                                   "To search for a fly pattern based on the name of the pattern. Type in the name in this field.")}
-                               size="medium"
-                               className="info-button"
-                               startIcon={<InfoOutlinedIcon/>}
-                               sx={{
-                                   color: 'grey',
-                                   borderColor: 'lightgrey',
-                                   minWidth: 'unset', // Remove default min-width
-                                   margin: '0 0 0 4px', // Reduce left margin
+                            Name
+                            <Button
+                                onClick={(e) => openModal(e,
+                                    "To search for a fly pattern based on the name of the pattern. Type in the name in this field.")}
+                                size="medium"
+                                className="info-button"
+                                startIcon={<InfoOutlinedIcon/>}
+                                sx={{
+                                    color: 'grey',
+                                    borderColor: 'lightgrey',
+                                    minWidth: 'unset', // Remove default min-width
+                                    margin: '0 0 0 4px', // Reduce left margin
 
-                               }}
-                           />
+                                }}
+                            />
                         </legend>
                         <div className="name-search-field">
                             <SearchField endpoint="name" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
@@ -516,7 +516,7 @@ export default function Home() {
                                          updateFilter={updateFilter}/>
                         </div>
                     </fieldset>
-                    <fieldset>
+                    <fieldset className="type-fieldset">
                         <legend>
                             Type of fly
                             <Button

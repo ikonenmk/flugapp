@@ -1,22 +1,31 @@
-
-.create-form {
+legend {
     color: black;
-    padding: 5px;
-    max-width: 40em;
+    position: relative;
+    top: 11px; /* Moves the legend inside the fieldset */
+    padding-bottom: 5px;
+    padding-top: 5px;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 600;
+}
+.create-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: black;
+    align-items: center;
+    margin-top: 0.5em;
 }
 .form-input-text {
     background-color: lightgray;
     color: black;
     border-style: solid;
     border-color: transparent;
-    padding: 5px;
     border-radius: 4px;
     min-height: 3em;
     min-width: 95%;
     outline: none;
     font-size: 16px;
     font-family: Arial, serif;
-    margin: 5px;
 }
 .form-input-text:hover,
 .form-input-text:focus {
@@ -65,9 +74,29 @@ ul {
     background-color: white;
 }
 
-fieldset {
-    border-color: lightgray;
+.upload-hook-fieldset,.image-upload-container,
+.upload-material-fieldset, .upload-species-fieldset,
+.upload-description-fieldset, .upload-instruction-fieldset{
+    max-width: 45em;
+    width: 100%;
+    border-color: white;
+    border-inline: white;
+    border-top: white;
+    border-bottom: white;
     border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.upload-name-fieldset, .upload-type-fieldset {
+    padding: 15px;
+    max-width: 45em;
+    width: 100%;
+    border-color: white;
+    border-inline: white;
+    border-top: white;
+    border-bottom: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .hook-container {
     display: grid;
@@ -166,7 +195,7 @@ fieldset {
 }
 
 .for-sale-container-dropdown {
-   display: flex;
+    display: flex;
     flex-direction: column;
 }
 
@@ -180,7 +209,7 @@ fieldset {
 }
 
 .species-search-field .search-field .auto-search .wrapper:hover {
-   border-color: grey;
+    border-color: grey;
 }
 .material-search-field .search-field .auto-search .wrapper:hover {
     border-color: grey;
@@ -191,4 +220,13 @@ fieldset {
     flex-direction: column;
     align-items: center;
     padding: 15px;
+}
+
+@media screen and (max-width: 768px) {
+    .upload-hook-fieldset,.image-upload-container,
+    .upload-material-fieldset, .upload-species-fieldset,
+    .upload-description-fieldset, .upload-instruction-fieldset,
+    .upload-name-fieldset, .upload-type-fieldset {
+        width: calc(100% - 15%);
+    }
 }

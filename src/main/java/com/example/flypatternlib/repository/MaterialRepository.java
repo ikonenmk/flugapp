@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface MaterialRepository extends ListCrudRepository<Material, Integer> {
 
-    // Find material by name
+    //Find material by name
     @Query("select * from material m where m.name = :name")
     Material findByName(@Param("name") String objectName);
 

@@ -5,6 +5,10 @@ import {InputValidation} from "../utils/inputValidation.jsx";
 import ImageUpload from "../create/imageUpload.jsx";
 import SearchField from "../common/searchField.jsx";
 import "../create/createPattern.css";
+import Button from "@mui/material/Button";
+import EditIcon from "@mui/icons-material/Edit";
+import * as React from "react";
+import {Done} from "@mui/icons-material";
 
 export default function EditPattern({pattern, speciesData, materialsData, setIsEditing}) {
     //Data for auth
@@ -155,7 +159,6 @@ export default function EditPattern({pattern, speciesData, materialsData, setIsE
     // Input validation
     // Description and instruction input
     const handleTextInput = async (e) => {
-        console.log(e.target.id);
         const inputString = e.target.value;
         const inputType = e.target.id;
         // Check is empty, if not validate input
@@ -168,6 +171,7 @@ export default function EditPattern({pattern, speciesData, materialsData, setIsE
                     if(error.errorType === inputType) {
                         // change error specific to this type of input
                         return newError;
+
                     } else {
                         // leave rest of error array unchanged
                         return error;
@@ -434,126 +438,133 @@ export default function EditPattern({pattern, speciesData, materialsData, setIsE
 
     return (
         <>
-            <div className="create-form">
-                <fieldset>
-                    <legend>Pattern name</legend>
-                    <input type="text" defaultValue={patternState.name} className="form-input-text" id="patternName" onChange={(e) => handleInput(e)}/>
-                    {
-                        errors.find((error) => error.errorType === "patternName").hasError ?
-                            <p className="error-text">
-                                {errors.find((error) => error.errorType === "patternName").errorMsg}
-                            </p>
-                            :
-                            ""
-                    }
+            <div className="edit-create-form">
+                <div className="edit-container">
+                    <fieldset className="upload-name-fieldset">
+                        <legend>Pattern name</legend>
+                        <input type="text" defaultValue={patternState.name} className="form-input-text" id="patternName"
+                               onChange={(e) => handleInput(e)}/>
+                        {
+                            errors.find((error) => error.errorType === "patternName").hasError ?
+                                <p className="error-text">
+                                    {errors.find((error) => error.errorType === "patternName").errorMsg}
+                                </p>
+                                :
+                                ""
+                        }
 
-                </fieldset>
-                <fieldset>
-                    <legend>Type of fly</legend>
-                    <select className="select-type" id="type"
-                            onChange={(e) => handleInput(e)}
-                            defaultValue={patternState.type}
-                    >
+                    </fieldset>
+                    <fieldset className="upload-type-fieldset">
+                        <legend>Type of fly</legend>
+                        <select className="select-type" id="type"
+                                onChange={(e) => handleInput(e)}
+                                defaultValue={patternState.type}
+                        >
 
-                        {selectListData.map((type) =>
-                            <option key={type} value={type}>{type}</option>
-                        )}
-                    </select>
-                    {
-                        errors.find((error) => error.errorType === "type").hasError ?
-                            <p className="error-text">
-                                {errors.find((error) => error.errorType === "type").errorMsg}
-                            </p>
-                            :
-                            ""
-                    }
-                </fieldset>
-                <fieldset>
-                    <legend>Image</legend>
-                    <ImageUpload patternId={patternState.id} fileRef={fileRef} setFileChanged={setFileChanged} isEditing={true} img_url={patternState.img_url}/>
-                    {
-                        errors.find((error) => error.errorType === "image").hasError ?
-                            <p className="error-text">
-                                {errors.find((error) => error.errorType === "image").errorMsg}
-                            </p>
-                            :
-                            ""
-                    }
-                </fieldset>
-                <fieldset>
-                    <legend className="hook-container">Hook size</legend>
-                    <p>From (hook size number):</p>
-                    <input type="text" id="hookSizeFrom" defaultValue={patternState.hook_size_from} className="form-input-text" onChange={(e) => handleInput(e)} />
-                    {
-                        errors.find((error) => error.errorType === "hookSizeFrom").hasError ?
-                            <p className="error-text">
-                                {errors.find((error) => error.errorType === "hookSizeFrom").errorMsg}
-                            </p>
-                            :
-                            ""
-                    }
-                    <p>To (hook size number):</p>
-                    <input type="text" id="hookSizeTo" defaultValue={patternState.hook_size_to} className="form-input-text" onChange={(e)=> handleInput(e)} />
-                    {
-                        errors.find((error) => error.errorType === "hookSizeTo").hasError ?
-                            <p className="error-text">
-                                {errors.find((error) => error.errorType === "hookSizeTo").errorMsg}
-                            </p>
-                            :
-                            ""
-                    }
-                </fieldset>
-                <fieldset className="material-fieldset">
-                    <legend>Material</legend>
-                    <div className="material-search-field">
-                        <SearchField
-                            endpoint="material"
-                            id="material"
-                            setSearchInput={setSearchInput}
-                            isEditing={true}
-                            pattern={pattern}
-                            materialsData={materialsData}
-                        />
-                    </div>
-                </fieldset>
-                <fieldset className="species-fieldset">
-                    <div className="species-search-field">
+                            {selectListData.map((type) =>
+                                <option key={type} value={type}>{type}</option>
+                            )}
+                        </select>
+                        {
+                            errors.find((error) => error.errorType === "type").hasError ?
+                                <p className="error-text">
+                                    {errors.find((error) => error.errorType === "type").errorMsg}
+                                </p>
+                                :
+                                ""
+                        }
+                    </fieldset>
+                    <fieldset className="image-upload-container">
+                        <legend>Image</legend>
+                        <ImageUpload patternId={patternState.id} fileRef={fileRef} setFileChanged={setFileChanged}
+                                     isEditing={true} img_url={patternState.img_url}/>
+                        {
+                            errors.find((error) => error.errorType === "image").hasError ?
+                                <p className="error-text">
+                                    {errors.find((error) => error.errorType === "image").errorMsg}
+                                </p>
+                                :
+                                ""
+                        }
+                    </fieldset>
+                    <fieldset className="upload-hook-fieldset">
+                        <legend className="hook-container">Hook size</legend>
+                        <p>From (hook size number):</p>
+                        <input type="text" id="hookSizeFrom" defaultValue={patternState.hook_size_from}
+                               className="form-input-text" onChange={(e) => handleInput(e)}/>
+                        {
+                            errors.find((error) => error.errorType === "hookSizeFrom").hasError ?
+                                <p className="error-text">
+                                    {errors.find((error) => error.errorType === "hookSizeFrom").errorMsg}
+                                </p>
+                                :
+                                ""
+                        }
+                        <p>To (hook size number):</p>
+                        <input type="text" id="hookSizeTo" defaultValue={patternState.hook_size_to}
+                               className="form-input-text" onChange={(e) => handleInput(e)}/>
+                        {
+                            errors.find((error) => error.errorType === "hookSizeTo").hasError ?
+                                <p className="error-text">
+                                    {errors.find((error) => error.errorType === "hookSizeTo").errorMsg}
+                                </p>
+                                :
+                                ""
+                        }
+                    </fieldset>
+                    <fieldset className="upload-material-fieldset">
+                        <legend>Material</legend>
+                        <div className="material-search-field">
+                            <SearchField
+                                endpoint="material"
+                                id="material"
+                                setSearchInput={setSearchInput}
+                                isEditing={true}
+                                pattern={pattern}
+                                materialsData={materialsData}
+                            />
+                        </div>
+                    </fieldset>
+                    <fieldset className="upload-species-fieldset">
                         <legend>Species</legend>
-                        <SearchField
-                            endpoint="species"
-                            id="species"
-                            setSearchInput={setSearchInput}
-                            isEditing={true}
-                            pattern={pattern}
-                            speciesData={speciesData}
-                        />
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Description</legend>
-                    <textarea className="form-textarea" defaultValue={patternState.descr} id="description" onChange={(e) => handleTextInput(e)}></textarea>
-                    {
-                        errors.find((error) => error.errorType === "description").hasError ?
-                            <p className="error-text">
-                                {errors.find((error) => error.errorType === "description").errorMsg}
-                            </p>
-                            :
-                            ""
-                    }
-                </fieldset>
-                <fieldset>
-                    <legend>Tying instructions</legend>
-                    <textarea className="form-textarea" defaultValue={patternState.instr} id="instruction" onChange={(e) => handleTextInput(e)}></textarea>
-                    {
-                        errors.find((error) => error.errorType === "instruction").hasError ?
-                            <p className="error-text">
-                                {errors.find((error) => error.errorType === "instruction").errorMsg}
-                            </p>
-                            :
-                            ""
-                    }
-                </fieldset>
-                {/*
+                        <div className="species-search-field">
+                            <SearchField
+                                endpoint="species"
+                                id="species"
+                                setSearchInput={setSearchInput}
+                                isEditing={true}
+                                pattern={pattern}
+                                speciesData={speciesData}
+                            />
+                        </div>
+                    </fieldset>
+                    <fieldset className="upload-description-fieldset">
+                        <legend>Description</legend>
+                        <textarea className="form-textarea" defaultValue={patternState.descr} id="description"
+                                  onChange={(e) => handleTextInput(e)}></textarea>
+                        {
+                            errors.find((error) => error.errorType === "description").hasError ?
+                                <p className="error-text">
+                                    {errors.find((error) => error.errorType === "description").errorMsg}
+                                </p>
+                                :
+                                ""
+                        }
+                    </fieldset>
+                    <fieldset className="upload-instruction-fieldset">
+                        <legend>Tying instructions</legend>
+                        <textarea className="form-textarea" defaultValue={patternState.instr} id="instruction"
+                                  onChange={(e) => handleTextInput(e)}></textarea>
+                        {
+                            errors.find((error) => error.errorType === "instruction").hasError ?
+                                <p className="error-text">
+                                    {errors.find((error) => error.errorType === "instruction").errorMsg}
+                                </p>
+                                :
+                                ""
+                        }
+                    </fieldset>
+                    {/*
                  <fieldset>
                     <div className="for-sale-container">
                         <label>For sale</label>
@@ -575,8 +586,23 @@ export default function EditPattern({pattern, speciesData, materialsData, setIsE
                     }
                 </fieldset>*/}
 
-                <div className="add-button-container">
-                    <button disabled={isButtonDisabled} className={isButtonDisabled ? 'button-disabled' : 'button-enabled'} onClick={handleSubmit}>Upload pattern</button>
+                    <div className="add-button-container">
+                        <Button disabled={isButtonDisabled}
+                                variant="outlined"
+                                startIcon={<Done />}
+                                size="large"
+                                sx={{
+                                    margin: 2,
+                                    color: 'grey',
+                                    borderColor: 'lightgrey',
+                                    '&:hover': {
+                                        backgroundColor: 'lightgrey', // Change background on hover
+                                        borderColor: 'grey', // Keep border consistent
+                                    },
+                                }}
+                                onClick={handleSubmit}>Done
+                        </Button>
+                    </div>
                 </div>
             </div>
         </>

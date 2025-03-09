@@ -270,11 +270,11 @@ export default function CreatePattern() {
             const response = await axios.post(`/api/pattern/uploadimage`, formData, {
                 headers: {Authorization: `Bearer ${token}`},
             });
-             return imageUrl;
+            return imageUrl;
         } catch (error) {
-                console.error('Error uploading image:', error);
-                return null;
-            }
+            console.error('Error uploading image:', error);
+            return null;
+        }
     }
 
     // Submit
@@ -335,26 +335,26 @@ export default function CreatePattern() {
                 <h1>Upload a new pattern</h1>
             </div>
             <div className="create-form">
-            <fieldset>
-                <legend>Pattern name</legend>
-                <input
-                    type="text"
-                    className="form-input-text"
-                    id="patternName"
-                    enterKeyHint="done"
-                    onKeyDown={(e) => handleEnterClick(e)}
-                    onChange={(e) => handleInput(e)}/>
+                <fieldset className="upload-name-fieldset">
+                    <legend>Pattern name</legend>
+                    <input
+                        type="text"
+                        className="form-input-text"
+                        id="patternName"
+                        enterKeyHint="done"
+                        onKeyDown={(e) => handleEnterClick(e)}
+                        onChange={(e) => handleInput(e)}/>
                     {
-                       errors.find((error) => error.errorType === "patternName").hasError ?
-                        <p className="error-text">
-                            {errors.find((error) => error.errorType === "patternName").errorMsg}
-                        </p>
+                        errors.find((error) => error.errorType === "patternName").hasError ?
+                            <p className="error-text">
+                                {errors.find((error) => error.errorType === "patternName").errorMsg}
+                            </p>
                             :
                             ""
                     }
 
-            </fieldset>
-                <fieldset>
+                </fieldset>
+                <fieldset className="upload-type-fieldset">
                     <legend>Type of fly</legend>
                     <select className="select-type" id="type"
                             onChange={(e) => handleInput(e)}
@@ -389,7 +389,7 @@ export default function CreatePattern() {
                     }
                 </fieldset>
 
-                <fieldset>
+                <fieldset className="upload-hook-fieldset">
                     <legend className="hook-container">Hook size</legend>
                     <p>From (largest hook size number):</p>
                     <input type="text" enterKeyHint="done" id="hookSizeFrom" className="form-input-text" onChange={(e) => handleInput(e)} />
@@ -402,7 +402,7 @@ export default function CreatePattern() {
                             ""
                     }
                     <p>To (smallest hook size number):</p>
-                   <input type="text" enterKeyHint="done" id="hookSizeTo" className="form-input-text" onChange={(e)=> handleInput(e)} />
+                    <input type="text" enterKeyHint="done" id="hookSizeTo" className="form-input-text" onChange={(e)=> handleInput(e)} />
                     {
                         errors.find((error) => error.errorType === "hookSizeTo").hasError ?
                             <p className="error-text">
@@ -412,42 +412,42 @@ export default function CreatePattern() {
                             ""
                     }
                 </fieldset>
-                <fieldset className="material-fieldset">
+                <fieldset className="upload-material-fieldset">
                     <legend>Material</legend>
                     <div className="material-search-field">
                         <SearchField endpoint="material" id="material" setSearchInput={setSearchInput}/>
                     </div>
                 </fieldset>
-                <fieldset className="species-fieldset">
-                <div className="species-search-field">
+                <fieldset className="upload-species-fieldset">
                     <legend>Species</legend>
-                    <SearchField endpoint="species" id="species" setSearchInput={setSearchInput}/>
-                </div>
-            </fieldset>
-            <fieldset>
-                <legend>Description</legend>
-                <textarea className="form-textarea" enterKeyHint="done" id="description" onChange={(e) => handleTextInput(e)}></textarea>
-                {
-                    errors.find((error) => error.errorType === "description").hasError ?
-                        <p className="error-text">
-                            {errors.find((error) => error.errorType === "description").errorMsg}
-                        </p>
-                        :
-                        ""
-                }
-            </fieldset>
-            <fieldset>
-                <legend>Tying instructions</legend>
-                <textarea className="form-textarea" enterKeyHint="done" id="instruction" onChange={(e) => handleTextInput(e)}></textarea>
-                {
-                    errors.find((error) => error.errorType === "instruction").hasError ?
-                        <p className="error-text">
-                            {errors.find((error) => error.errorType === "instruction").errorMsg}
-                        </p>
-                        :
-                        ""
-                }
-            </fieldset>
+                    <div className="species-search-field">
+                        <SearchField endpoint="species" id="species" setSearchInput={setSearchInput}/>
+                    </div>
+                </fieldset>
+                <fieldset className="upload-description-fieldset">
+                    <legend>Description</legend>
+                    <textarea className="form-textarea" enterKeyHint="done" id="description" onChange={(e) => handleTextInput(e)}></textarea>
+                    {
+                        errors.find((error) => error.errorType === "description").hasError ?
+                            <p className="error-text">
+                                {errors.find((error) => error.errorType === "description").errorMsg}
+                            </p>
+                            :
+                            ""
+                    }
+                </fieldset>
+                <fieldset className="upload-instruction-fieldset">
+                    <legend>Tying instructions</legend>
+                    <textarea className="form-textarea" enterKeyHint="done" id="instruction" onChange={(e) => handleTextInput(e)}></textarea>
+                    {
+                        errors.find((error) => error.errorType === "instruction").hasError ?
+                            <p className="error-text">
+                                {errors.find((error) => error.errorType === "instruction").errorMsg}
+                            </p>
+                            :
+                            ""
+                    }
+                </fieldset>
                 {/* FOR LATER UPDATES
                     <fieldset>
                 <div className="for-sale-container">

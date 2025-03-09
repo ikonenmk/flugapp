@@ -39,9 +39,9 @@ export default function PersonalLibrary( ) {
     const renderTabContent = () => {
         switch (activeTab) {
             case "savedPatternTab":
-                return <SavedPatternsTab username={username}/>;
+                return <SavedPatternsTab className="saved-patterns-tab" username={username}/>;
             case "createdPatternTab":
-                return <CreatedPatternsTab username={username}/>;
+                return <CreatedPatternsTab className="created-patterns-tab" username={username}/>;
             case "ordersTab":
                 return <OrdersTabs />;
         }
@@ -61,7 +61,7 @@ export default function PersonalLibrary( ) {
                         Created patterns
                     </button>
                 </div>
-                <div id="tabContent">
+                <div id="tabContent" className="tabContent">
                     {renderTabContent()}
                 </div>
             </div>

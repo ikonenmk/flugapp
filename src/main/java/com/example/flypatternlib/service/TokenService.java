@@ -59,7 +59,7 @@ public class TokenService {
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
-        //Method that validates a JWT string
+    //Method that validates a JWT string
     public Boolean validateRestoreToken(String token) {
         // Check if token has not been used already (i.e. is deleted)
         if(tokenRepository.tokenExists(token) > 0) {
@@ -82,19 +82,19 @@ public class TokenService {
     }
 
     public Boolean validateToken(String token) {
-            try {
-                //Decode token string
-                Jwt jwt = decoder.decode(token);
-                //Create time stamp
-                Instant now = Instant.now();
-                //Get expiration time for JWT
-                Instant expirationTime = jwt.getExpiresAt();
-                //Return true if token exists and has not expired
-                return expirationTime != null && !expirationTime.isBefore(now);
-            } catch (Exception e) {
-                System.out.println("Token validation failed: " + e);
-                return false;
-            }
+        try {
+            //Decode token string
+            Jwt jwt = decoder.decode(token);
+            //Create time stamp
+            Instant now = Instant.now();
+            //Get expiration time for JWT
+            Instant expirationTime = jwt.getExpiresAt();
+            //Return true if token exists and has not expired
+            return expirationTime != null && !expirationTime.isBefore(now);
+        } catch (Exception e) {
+            System.out.println("Token validation failed: " + e);
+            return false;
+        }
     }
 
     public void save(RestoreToken token) {

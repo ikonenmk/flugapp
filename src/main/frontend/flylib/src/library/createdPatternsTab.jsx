@@ -4,7 +4,7 @@ export default function SavedPatternsTab({username}) {
 
     return (
         <>
-            <div>
+            <div className="accordion-content-container">
                 <PatternAccordion
                     username={username}
                     typeOfView="createdPatterns"

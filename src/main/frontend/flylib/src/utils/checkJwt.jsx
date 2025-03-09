@@ -15,8 +15,8 @@ export async function CheckJwt (token, dispatch, userStatus) {
             }
             return true;
         }
-        } catch (error) {
+    } catch (error) {
         console.error("An error occured: ", error);
         throw error;
-     }
+    }
 }

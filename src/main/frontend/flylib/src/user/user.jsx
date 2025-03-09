@@ -68,8 +68,8 @@ export default function User() {
         if(username !== null || username !== "") {
             axios.get(`/api/user/getuserdata?username=${username}`,
                 config).then ((response) => {
-                    setUserData(response.data);
-                    setJoinDate(response.data.join_date.slice(0,10));
+                setUserData(response.data);
+                setJoinDate(response.data.join_date.slice(0,10));
             }).catch((error) => {
                 console.log("Axios request error: ", error);
             });
@@ -135,7 +135,7 @@ export default function User() {
         }
     }, [username])
     // Handle input changes
-   async function handleInput(e) {
+    async function handleInput(e) {
         const value = e.target.value;
         const position = e.target.id;
         if(value !== "") {
@@ -327,412 +327,415 @@ export default function User() {
             <div className="rubric">
                 <h1>{formattedUsername} Profile</h1>
             </div>
-            <div className="profile-container">
-                <div className="profile-image-container">
-                    <canvas
-                        className="profile-image"
-                        id="profile-image"
-                        ref={imageRef}>
-                    </canvas>
-                    <div className="photo-button-container">
-                        {activeUsername.toLowerCase() === username.toLowerCase() ? (
-                            <>
-                                <input
-                                    type="file"
-                                    ref={fileRef}
-                                    id="uploadButton"
-                                    name="uploadButton"
-                                    style={{display: 'none'}} // Hide the file input
-                                    onInput={uploadImage}
-                                />
-                                {userData.img_url !== "" && userData.img_url !== null ? (
+            <div className="components-container">
+                <div className="profile-container">
+                    <div className="profile-image-container">
+                        <canvas
+                            className="profile-image"
+                            id="profile-image"
+                            ref={imageRef}>
+                        </canvas>
+                        <div className="photo-button-container">
+                            {activeUsername.toLowerCase() === username.toLowerCase() ? (
+                                <>
+                                    <input
+                                        type="file"
+                                        ref={fileRef}
+                                        id="uploadButton"
+                                        name="uploadButton"
+                                        style={{display: 'none'}} // Hide the file input
+                                        onInput={uploadImage}
+                                    />
+                                    {userData.img_url !== "" && userData.img_url !== null ? (
+                                        <Button
+                                            onClick={handleDeleteButtonClick}
+                                            variant="outlined"
+                                            startIcon={<DeleteIcon/>}
+                                            sx={{
+                                                color: "grey",
+                                                borderColor: "grey",
+                                                borderBlockColor: "grey",
+                                                margin: 0.5
+                                            }}
+                                        >Delete picture</Button>
+                                    ) : (
+                                        "")}
+
                                     <Button
-                                        onClick={handleDeleteButtonClick}
+                                        onClick={handleButtonClick}
                                         variant="outlined"
-                                        startIcon={<DeleteIcon/>}
+                                        startIcon={<AddAPhotoIcon/>}
                                         sx={{
                                             color: "grey",
                                             borderColor: "grey",
                                             borderBlockColor: "grey",
                                             margin: 0.5
                                         }}
-                                    >Delete picture</Button>
-                                ) : (
-                                    "")}
+                                    >Change profile picture</Button>
+                                    <p className="info-text">Recommended size 255x300 pixels</p>
+                                </>
 
-                                <Button
-                                    onClick={handleButtonClick}
-                                    variant="outlined"
-                                    startIcon={<AddAPhotoIcon/>}
-                                    sx={{
-                                        color: "grey",
-                                        borderColor: "grey",
-                                        borderBlockColor: "grey",
-                                        margin: 0.5
-                                    }}
-                                >Change profile picture</Button>
-                                <p className="info-text">Recommended size 255x300 pixels</p>
-                            </>
+                            ) : (
+                                ""
+                            )
 
-                        ) : (
-                            ""
-                        )
+                            }
+                        </div>
 
-                        }
                     </div>
+                    <div className="profile-card">
+                        <h3>
+                            Location
+                            {activeUsername.toLowerCase() === username.toLowerCase() ? (
+                                isEditingLocation === true ? (
+                                    inputError ? (
+                                        <Button
+                                            disabled
+                                            id="location-done"
+                                            onClick={(e) => toggleEdit(e)}
+                                            startIcon={<DoneIcon/>}
+                                            size="small"
+                                            sx={{
+                                                margin: 0,
+                                                padding: 0,
+                                                color: "grey"
+                                            }}
+                                        >
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            id="location-done"
+                                            onClick={(e) => toggleEdit(e)}
+                                            startIcon={<DoneIcon/>}
+                                            size="small"
+                                            sx={{
+                                                margin: 0,
+                                                padding: 0,
+                                                color: "grey"
+                                            }}
+                                        >
+                                        </Button>
+                                    )
 
-                </div>
-                <div className="profile-card">
-                    <h3>
-                        Location
-                        {activeUsername.toLowerCase() === username.toLowerCase() ? (
-                            isEditingLocation === true ? (
-                                inputError ? (
-                                    <Button
-                                        disabled
-                                        id="location-done"
-                                        onClick={(e) => toggleEdit(e)}
-                                        startIcon={<DoneIcon/>}
-                                        size="small"
-                                        sx={{
-                                            margin: 0,
-                                            padding: 0,
-                                            color: "grey"
-                                        }}
-                                    >
-                                    </Button>
                                 ) : (
-                                    <Button
-                                        id="location-done"
-                                        onClick={(e) => toggleEdit(e)}
-                                        startIcon={<DoneIcon/>}
-                                        size="small"
-                                        sx={{
-                                            margin: 0,
-                                            padding: 0,
-                                            color: "grey"
-                                        }}
-                                    >
-                                    </Button>
+                                    isEditingInstagram === true || isEditingYoutube === true ? (
+                                        <Button
+                                            disabled
+                                            id="location-edit"
+                                            onClick={(e) => toggleEdit(e)}
+                                            startIcon={<EditIcon/>}
+                                            size="small"
+                                            sx={{
+                                                margin: 0,
+                                                padding: 0,
+                                                color: "grey"
+                                            }}
+                                        >
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            id="location-edit"
+                                            onClick={(e) => toggleEdit(e)}
+                                            startIcon={<EditIcon/>}
+                                            size="small"
+                                            sx={{
+                                                margin: 0,
+                                                padding: 0,
+                                                color: "grey"
+                                            }}
+                                        >
+                                        </Button>
+                                    )
+
                                 )
 
                             ) : (
-                                isEditingInstagram === true || isEditingYoutube === true ? (
-                                    <Button
-                                        disabled
-                                        id="location-edit"
-                                        onClick={(e) => toggleEdit(e)}
-                                        startIcon={<EditIcon/>}
-                                        size="small"
-                                        sx={{
-                                            margin: 0,
-                                            padding: 0,
-                                            color: "grey"
-                                        }}
-                                    >
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        id="location-edit"
-                                        onClick={(e) => toggleEdit(e)}
-                                        startIcon={<EditIcon/>}
-                                        size="small"
-                                        sx={{
-                                            margin: 0,
-                                            padding: 0,
-                                            color: "grey"
-                                        }}
-                                    >
-                                    </Button>
-                                )
-
+                                ""
+                            )}
+                        </h3>
+                        {isEditingLocation === true ? (
+                            <>
+                                <input
+                                    defaultValue={userData.location}
+                                    type="text"
+                                    id="location"
+                                    className="location-edit-input"
+                                    onChange={(e) => handleInput(e)}
+                                />
+                                <p className="error-text">{inputErrorMsg}</p>
+                            </>
+                        ) : (
+                            userData.location !== null && userData.location !== "" ? (
+                                <p>{userData.location}</p>
+                            ) : (
+                                <p>Unknown</p>
                             )
-
-                        ) : (
-                            ""
                         )}
-                    </h3>
-                    {isEditingLocation === true ? (
-                        <>
-                            <input
-                                defaultValue={userData.location}
-                                type="text"
-                                id="location"
-                                className="location-edit-input"
-                                onChange={(e) => handleInput(e)}
-                            />
-                            <p className="error-text">{inputErrorMsg}</p>
-                        </>
-                    ) : (
-                        userData.location !== null && userData.location !== "" ? (
-                            <p>{userData.location}</p>
+
+
+                        <h3>Member since</h3>
+                        {joinDate}
+                        <h3>Number of patterns added</h3>
+                        {userData.patternCount}
+                        <h3>Most added pattern</h3>
+                        {mostPopularPattern === "" ? (
+                            <p>No patterns has been added by other users yet</p>
                         ) : (
-                            <p>Unknown</p>
-                        )
-                    )}
+                            <NavLink to={`/pattern/${userData.mostPopularPattern}`}>{mostPopularPattern.name}</NavLink>
+                        )}
+                        <h3>
+                            Social media
 
-
-                    <h3>Member since</h3>
-                    {joinDate}
-                    <h3>Number of patterns added</h3>
-                    {userData.patternCount}
-                    <h3>Most added pattern</h3>
-                    {mostPopularPattern === "" ? (
-                        <p>No patterns has been added by other users yet</p>
-                    ) : (
-                        <NavLink to={`/pattern/${userData.mostPopularPattern}`}>{mostPopularPattern.name}</NavLink>
-                    )}
-                    <h3>
-                        Social media
-
-                    </h3>
-                    <div className="social-media-container">
-                        <div className="instagram-container">
-                            <div className="instagram-button-container">
-                                {userData.instagram !== null && userData.instagram !== "" ? (
-                                    <a href={userData.instagram} target="_blank" rel="noopener noreferrer">
+                        </h3>
+                        <div className="social-media-container">
+                            <div className="instagram-container">
+                                <div className="instagram-button-container">
+                                    {userData.instagram !== null && userData.instagram !== "" ? (
+                                        <a href={userData.instagram} target="_blank" rel="noopener noreferrer">
+                                            <Button
+                                                size="large"
+                                                startIcon={<InstagramIcon/>}
+                                            >
+                                                Instagram
+                                            </Button>
+                                        </a>
+                                    ) : (
                                         <Button
                                             size="large"
                                             startIcon={<InstagramIcon/>}
+                                            sx={{
+                                                color: 'lightgrey'
+                                            }}
+                                            disabled
                                         >
                                             Instagram
                                         </Button>
-                                    </a>
-                                ) : (
-                                    <Button
-                                        size="large"
-                                        startIcon={<InstagramIcon/>}
-                                        sx={{
-                                            color: 'lightgrey'
-                                        }}
-                                        disabled
-                                    >
-                                        Instagram
-                                    </Button>
-                                )}
-                                {activeUsername.toLowerCase() === username.toLowerCase() ? (
-                                    isEditingInstagram === true ? (
-                                        inputError ? (
-                                            <Button
-                                                disabled
-                                                id="instagram-done"
-                                                onClick={(e) => toggleEdit(e)}
-                                                startIcon={<DoneIcon/>}
-                                                size="small"
-                                                sx={{
-                                                    margin: 0,
-                                                    padding: 0,
-                                                    color: "grey"
-                                                }}
-                                            >
-                                            </Button>
-                                        ) : (
-                                            <Button
-                                                id="instagram-done"
-                                                onClick={(e) => toggleEdit(e)}
-                                                startIcon={<DoneIcon/>}
-                                                size="small"
-                                                sx={{
-                                                    margin: 0,
-                                                    padding: 0,
-                                                    color: "grey"
-                                                }}
-                                            >
-                                            </Button>
-                                        )
+                                    )}
+                                    {activeUsername.toLowerCase() === username.toLowerCase() ? (
+                                        isEditingInstagram === true ? (
+                                            inputError ? (
+                                                <Button
+                                                    disabled
+                                                    id="instagram-done"
+                                                    onClick={(e) => toggleEdit(e)}
+                                                    startIcon={<DoneIcon/>}
+                                                    size="small"
+                                                    sx={{
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        color: "grey"
+                                                    }}
+                                                >
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    id="instagram-done"
+                                                    onClick={(e) => toggleEdit(e)}
+                                                    startIcon={<DoneIcon/>}
+                                                    size="small"
+                                                    sx={{
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        color: "grey"
+                                                    }}
+                                                >
+                                                </Button>
+                                            )
 
+                                        ) : (
+                                            isEditingYoutube === true || isEditingLocation === true ? (
+                                                <Button
+                                                    disabled
+                                                    id="instagram-edit"
+                                                    onClick={(e) => toggleEdit(e)}
+                                                    startIcon={<EditIcon/>}
+                                                    size="small"
+                                                    sx={{
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        color: "grey"
+                                                    }}
+                                                >
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    id="instagram-edit"
+                                                    onClick={(e) => toggleEdit(e)}
+                                                    startIcon={<EditIcon/>}
+                                                    size="small"
+                                                    sx={{
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        color: "grey"
+                                                    }}
+                                                >
+                                                </Button>
+                                            )
+
+                                        )
                                     ) : (
-                                        isEditingYoutube === true || isEditingLocation === true ? (
-                                            <Button
-                                                disabled
-                                                id="instagram-edit"
-                                                onClick={(e) => toggleEdit(e)}
-                                                startIcon={<EditIcon/>}
-                                                size="small"
-                                                sx={{
-                                                    margin: 0,
-                                                    padding: 0,
-                                                    color: "grey"
-                                                }}
-                                            >
-                                            </Button>
-                                        ) : (
-                                            <Button
-                                                id="instagram-edit"
-                                                onClick={(e) => toggleEdit(e)}
-                                                startIcon={<EditIcon/>}
-                                                size="small"
-                                                sx={{
-                                                    margin: 0,
-                                                    padding: 0,
-                                                    color: "grey"
-                                                }}
-                                            >
-                                            </Button>
-                                        )
+                                        ""
+                                    )}
+                                </div>
 
-                                    )
-                                ) : (
-                                    ""
-                                )}
+                                <div className="instagram-edit-field">
+                                    {isEditingInstagram === true ? (
+                                        <>
+                                            <input
+                                                defaultValue={userData.instagram}
+                                                className="instagram-edit-input"
+                                                id="instagram"
+                                                onChange={(e) => handleInput(e)}
+                                            />
+                                            <p className="error-text">{inputErrorMsg}</p>
+                                        </>
+                                    ) : (
+                                        ""
+                                    )}
+                                </div>
                             </div>
-
-                            <div className="instagram-edit-field">
-                                {isEditingInstagram === true ? (
-                                    <>
-                                        <input
-                                            defaultValue={userData.instagram}
-                                            className="instagram-edit-input"
-                                            id="instagram"
-                                            onChange={(e) => handleInput(e)}
-                                        />
-                                        <p className="error-text">{inputErrorMsg}</p>
-                                    </>
-                                ) : (
-                                    ""
-                                )}
-                            </div>
-                        </div>
-                        <div className="youtube-container">
-                            <div className="social-buttion-container">
-                                {userData.youtube !== null && userData.youtube !== "" ? (
-                                    <a href={userData.youtube} target="_blank" rel="noopener noreferrer">
+                            <div className="youtube-container">
+                                <div className="social-buttion-container">
+                                    {userData.youtube !== null && userData.youtube !== "" ? (
+                                        <a href={userData.youtube} target="_blank" rel="noopener noreferrer">
+                                            <Button
+                                                size="large"
+                                                startIcon={<YouTubeIcon/>}
+                                                sx={{
+                                                    color: 'red'
+                                                }}>
+                                                Youtube
+                                            </Button>
+                                        </a>
+                                    ) : (
                                         <Button
                                             size="large"
                                             startIcon={<YouTubeIcon/>}
                                             sx={{
-                                                color: 'red'
-                                            }}>
+                                                color: 'lightgrey'
+                                            }}
+                                            disabled>
                                             Youtube
                                         </Button>
-                                    </a>
-                                ) : (
-                                    <Button
-                                        size="large"
-                                        startIcon={<YouTubeIcon/>}
-                                        sx={{
-                                            color: 'lightgrey'
-                                        }}
-                                        disabled>
-                                        Youtube
-                                    </Button>
-                                )}
-                                {activeUsername.toLowerCase() === username.toLowerCase() ? (
-                                    isEditingYoutube === true ? (
-                                        inputError ? (
-                                            <Button
-                                                disabled
-                                                id="youtube-done"
-                                                onClick={(e) => toggleEdit(e)}
-                                                startIcon={<DoneIcon/>}
-                                                size="small"
-                                                sx={{
-                                                    margin: 0,
-                                                    padding: 0,
-                                                    color: "grey"
-                                                }}
-                                            >
-                                            </Button>
+                                    )}
+                                    {activeUsername.toLowerCase() === username.toLowerCase() ? (
+                                        isEditingYoutube === true ? (
+                                            inputError ? (
+                                                <Button
+                                                    disabled
+                                                    id="youtube-done"
+                                                    onClick={(e) => toggleEdit(e)}
+                                                    startIcon={<DoneIcon/>}
+                                                    size="small"
+                                                    sx={{
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        color: "grey"
+                                                    }}
+                                                >
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    id="youtube-done"
+                                                    onClick={(e) => toggleEdit(e)}
+                                                    startIcon={<DoneIcon/>}
+                                                    size="small"
+                                                    sx={{
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        color: "grey"
+                                                    }}
+                                                >
+                                                </Button>
+                                            )
+
                                         ) : (
-                                            <Button
-                                                id="youtube-done"
-                                                onClick={(e) => toggleEdit(e)}
-                                                startIcon={<DoneIcon/>}
-                                                size="small"
-                                                sx={{
-                                                    margin: 0,
-                                                    padding: 0,
-                                                    color: "grey"
-                                                }}
-                                            >
-                                            </Button>
+                                            isEditingInstagram === true || isEditingLocation === true ? (
+                                                <Button
+                                                    disabled
+                                                    id="youtube-edit"
+                                                    onClick={(e) => toggleEdit(e)}
+                                                    startIcon={<EditIcon/>}
+                                                    size="small"
+                                                    sx={{
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        color: "grey"
+                                                    }}
+                                                >
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    id="youtube-edit"
+                                                    onClick={(e) => toggleEdit(e)}
+                                                    startIcon={<EditIcon/>}
+                                                    size="small"
+                                                    sx={{
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        color: "grey"
+                                                    }}
+                                                >
+                                                </Button>
+                                            )
+
                                         )
 
                                     ) : (
-                                        isEditingInstagram === true || isEditingLocation === true ? (
-                                            <Button
-                                                disabled
-                                                id="youtube-edit"
-                                                onClick={(e) => toggleEdit(e)}
-                                                startIcon={<EditIcon/>}
-                                                size="small"
-                                                sx={{
-                                                    margin: 0,
-                                                    padding: 0,
-                                                    color: "grey"
-                                                }}
-                                            >
-                                            </Button>
-                                        ) : (
-                                            <Button
-                                                id="youtube-edit"
-                                                onClick={(e) => toggleEdit(e)}
-                                                startIcon={<EditIcon/>}
-                                                size="small"
-                                                sx={{
-                                                    margin: 0,
-                                                    padding: 0,
-                                                    color: "grey"
-                                                }}
-                                            >
-                                            </Button>
-                                        )
+                                        ""
+                                    )}
+                                </div>
 
-                                    )
+                                <div className="youtube-edit-field">
+                                    {isEditingYoutube === true ? (
+                                        <>
+                                            <input
+                                                defaultValue={userData.youtube}
+                                                className="youtube-edit-input"
+                                                id="youtube"
+                                                onChange={(e) => handleInput(e)}
+                                            />
+                                            <p className="error-text">{inputErrorMsg}</p>
+                                        </>
+                                    ) : (
+                                        ""
+                                    )}
+                                </div>
 
-                                ) : (
-                                    ""
-                                )}
                             </div>
+                        </div>
+                        <div className="edit-fields">
 
-                            <div className="youtube-edit-field">
-                                {isEditingYoutube === true ? (
-                                    <>
-                                        <input
-                                            defaultValue={userData.youtube}
-                                            className="youtube-edit-input"
-                                            id="youtube"
-                                            onChange={(e) => handleInput(e)}
-                                        />
-                                        <p className="error-text">{inputErrorMsg}</p>
-                                    </>
-                                ) : (
-                                    ""
-                                )}
-                            </div>
 
                         </div>
                     </div>
-                    <div className="edit-fields">
+                </div>
+                <div className="accordion-container">
+                    <div className="accordion-card">
+                        <h3>{formattedUsername} Patterns</h3>
+                        <UserAccordion username={username}/>
+                    </div>
+                    <div className="delete-account-container">
+                        <div className="delete-button-container">
+                            {activeUsername.toLowerCase() === username.toLowerCase() ? (
+                                <Button
+                                    onClick={handleDeleteAccountButtonClick}
+                                    variant="outlined"
+                                    startIcon={<DeleteIcon/>}
+                                    sx={{
+                                        color: "grey",
+                                        borderColor: "grey",
+                                        borderBlockColor: "grey",
+                                    }}
+                                >Delete Account</Button>
+                            ) : (
+                                ""
+                            )}
 
-
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="accordion-container">
-                <div className="accordion-card">
-                    <h3>{formattedUsername} Patterns</h3>
-                    <UserAccordion username={username}/>
-                </div>
-                <div className="delete-account-container">
-                    {activeUsername.toLowerCase() === username.toLowerCase() ? (
-                        <Button
-                            onClick={handleDeleteAccountButtonClick}
-                            variant="outlined"
-                            startIcon={<DeleteIcon/>}
-                            sx={{
-                                color: "grey",
-                                borderColor: "grey",
-                                borderBlockColor: "grey",
-                            }}
-                        >Delete Account</Button>
-                    ) : (
-                        ""
-                    ) }
-
-                </div>
-            </div>
-
         </>
     )
 

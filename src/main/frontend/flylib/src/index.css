@@ -28,7 +28,7 @@ body {
 }
 
 h1 {
-  font-size: 2.5em;
+  font-size: 2.4em;
   line-height: 1.1;
 }
 
@@ -71,14 +71,15 @@ h1 {
 
 .rubric-text {
   max-width: 40em;
+  height: auto;
   overflow-wrap: break-word;
   overflow: hidden;
   margin-top: 0;
 }
 .rubric h1 {
   max-width: 40em;
+  height: auto;
   overflow-wrap: break-word;
-  overflow: hidden;
   align-content: flex-end;
 }
 

@@ -1,0 +1,56 @@
+
+
+.textarea {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    resize: none;
+    overflow: hidden;
+    height: auto;
+    box-shadow: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid black;
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+.textarea::placeholder {
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+}
+
+.textarea:hover {
+    box-shadow: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid;
+    border-color: white;
+}
+
+.textarea:active {
+    box-shadow: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid;
+    border-color: white;
+}
+.textarea:focus {
+    border-color: black;
+    border-bottom-width: 2px;
+    box-shadow: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom-style: solid;
+    transition: border-color 3s ease;
+}
+

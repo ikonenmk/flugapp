@@ -9,7 +9,7 @@ export async function InputValidation(input, inputType) {
             if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input)) { // check if e-mail not matching regex for correct e-mail format
                 hasError = true;
                 errorMsg = "State a correct email address";
-                } else {
+            } else {
                 try {
                     const email = encodeURIComponent(input);
                     const emailExists = await axios.get(`/api/user/findemail?email=${email}`)
@@ -44,29 +44,29 @@ export async function InputValidation(input, inputType) {
                 errorMsg = errorMsg.concat(", ", "include at least one of the following: !@#£$%&*,.?");
             }
             break;
-            case "username":
-                if (input.length > 100) {
-                    hasError = true;
-                    errorMsg = "Username is too long (max 100 characters)";
-                } else if (!/^[A-Za-z0-9]+$/.test(input)) {
-                    hasError = true;
-                    errorMsg = "Username can only contain letters or numbers and no spaces";
-                } else {
-                    try {
-                        const user = encodeURIComponent(input);
-                        const userExists = await axios.get(`/api/user/finduser?username=${user}`)
-                        if (userExists.data === true) {
-                            return "Username already exist, please chose another one";
-                        } else if (userExists.data === false) {
-                            return true;
-                        }
-
-                    } catch (error) {
-                        console.error("An error occured: ", error);
-                        throw error;
+        case "username":
+            if (input.length > 100) {
+                hasError = true;
+                errorMsg = "Username is too long (max 100 characters)";
+            } else if (!/^[A-Za-z0-9]+$/.test(input)) {
+                hasError = true;
+                errorMsg = "Username can only contain letters or numbers and no spaces";
+            } else {
+                try {
+                    const user = encodeURIComponent(input);
+                    const userExists = await axios.get(`/api/user/finduser?username=${user}`)
+                    if (userExists.data === true) {
+                        return "Username already exist, please chose another one";
+                    } else if (userExists.data === false) {
+                        return true;
                     }
+
+                } catch (error) {
+                    console.error("An error occured: ", error);
+                    throw error;
                 }
-                break;
+            }
+            break;
 
 
         // Pattern creation validations
@@ -143,12 +143,12 @@ export async function InputValidation(input, inputType) {
             }
             break;
     }
-            // Check if there are any errors and return error message, or if not the value true
-            if (hasError) {
-                return errorMsg;
-            } else {
-                return true;
-            }
+    // Check if there are any errors and return error message, or if not the value true
+    if (hasError) {
+        return errorMsg;
+    } else {
+        return true;
+    }
 
     // Function for controlling if string has upper and lower case
     function checkUpperLowerCase(string) {

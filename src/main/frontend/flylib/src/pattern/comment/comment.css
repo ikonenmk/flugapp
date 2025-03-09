@@ -1,0 +1,25 @@
+.comment-container {
+    display: flex;
+    flex-direction: column;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 200;
+    min-height: 10px;
+    overflow: hidden;
+    height: auto;
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+    outline: none;
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    white-space: pre-wrap;
+}
+.comment-footer {
+    align-self: flex-end;
+}
+
+.comment-header {
+    flex-direction: row;
+    align-items: flex-start;
+}

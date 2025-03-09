@@ -4,6 +4,7 @@
     width: 100%;
     background-color: black;
     padding: 0;
+    margin: 0;
 }
 .large-menu {
     background-color: black;
@@ -15,6 +16,7 @@
     overflow: visible;
     border-bottom: 1px solid white;
     width: 100%;
+    margin: 0;
 }
 .large-menu ul {
     height: 100%;
@@ -103,6 +105,7 @@ body.no-scroll {
     display: none;
 }
 .hamburger-menu-container {
+    display: flex;
     position: relative;
     height: 65px;
 }
@@ -169,6 +172,85 @@ body.no-scroll {
     color: black;
 }
 
+.notification-menu-container {
+    position: relative;
+    margin: 0;
+    padding: 0;
+
+}
+.notification-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 60vw;
+    max-width: 350px;
+    height: auto;
+    background-color: black;
+    display: flex;
+    z-index: 20001;
+    opacity: 90%;
+    flex-direction: column;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.notification-menu ul {
+    background-color: black;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 0.5em;
+    margin: 0;
+}
+.notification-menu li {
+    background-color: black;
+    align-items: flex-start;
+    text-align: left;
+    margin: 0;
+    padding: 0.5em;
+    font-weight: bold;
+}
+
+.no-notificationmenu {
+    display: none;
+}
+
+.delete-notification-button {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: large;
+    background-color: black;
+    color: white;
+    border: 0;
+    cursor: pointer;
+    margin-right: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.delete-notification-button:active {
+    background-color: white;
+    transition: 0.1s;
+}
+
+.pattern-link {
+    color: white;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.pattern-link:hover {
+    color: grey;
+}
+
+.pattern-link:active {
+    background-color: grey;
+    transition: 0.1s;
+}
+
 .about-button {
     color: white;
     text-align: center;
@@ -179,6 +261,7 @@ body.no-scroll {
     text-decoration: none;
     margin-left: auto;
     margin-right: 0.5em;
+
 }
 
 .about-button:hover {
@@ -190,30 +273,55 @@ body.no-scroll {
     .large-menu {
         display: none;
     }
+
     .hamburger-menu {
         display: flex;
     }
+
     .hamburgerButton {
         display: flex;
 
     }
+
     .about-button {
         display: flex;
     }
+
+    .notification-menu-container {
+        position: relative;
+        height: 65px;
+        border-bottom: none;
     }
 
+    .hamburger-menu-container {
+        display: flex;
+    }
+}
 
 @media screen and (min-width: 769px) {
     .hamburgerButton {
         display: none;
     }
+
     .large-menu {
         display: flex;
     }
+
     .hamburger-menu {
         display: none;
     }
+
     .about-button {
+        display: none;
+    }
+
+    .notification-menu-container {
+        position: relative;
+        height: 120px;
+        border-bottom: 1px solid white;
+    }
+
+    .hamburger-menu-container {
         display: none;
     }
 }

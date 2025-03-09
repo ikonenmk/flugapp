@@ -24,7 +24,7 @@ export default function Modal ({setModalOpen}) {
 
                     <h3>Why We Collect It:</h3>
                     <p>To manage your account and allow login.<br />
-                    To send necessary account-related communications and information about Flyxicon.com.</p>
+                        To send necessary account-related communications and information about Flyxicon.com.</p>
 
                     <h3>How We Protect Your Data:</h3>
                     <p>

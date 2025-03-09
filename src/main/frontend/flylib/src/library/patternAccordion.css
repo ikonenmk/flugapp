@@ -1,15 +1,22 @@
-.list-of-material {
-    background-color: white;
-    color: black;
-}
-.list-of-species {
-    background-color: white;
-    color: black;
-}
+
 
 .patternImage {
     width: 100%;
     max-width: 30em;
 }
 
+
+.instruction-text {
+    white-space: pre-wrap;
+}
+.description-text {
+    white-space: pre-wrap;
+}
+
+.edit-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1em;
+}
 

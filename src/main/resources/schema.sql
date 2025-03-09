@@ -90,9 +90,9 @@ CREATE TABLE IF NOT EXISTS user_emails (
     );
 
 CREATE TABLE IF NOT EXISTS user_data (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user VARCHAR (100) not null,
-    join_date TIMESTAMP NOT NULL,
+                                         id INT PRIMARY KEY AUTO_INCREMENT,
+                                         user VARCHAR (100) not null,
+    join_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     location VARCHAR (255),
     instagram VARCHAR (255),
     youtube VARCHAR (255),
@@ -107,12 +107,29 @@ CREATE TABLE IF NOT EXISTS restore_token (
     );
 
 CREATE TABLE IF NOT EXISTS page_visit_counter (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    last_time_visited TIMESTAMP NOT NULL,
-    number_of_visits INT NOT NULL
+                                                  id INT PRIMARY KEY AUTO_INCREMENT,
+                                                  last_time_visited TIMESTAMP NOT NULL,
+                                                  number_of_visits INT NOT NULL
 
 );
 
+CREATE TABLE IF NOT EXISTS comments (
+                                        id INT PRIMARY KEY AUTO_INCREMENT,
+                                        username VARCHAR (100) NOT NULL,
+    time_of_posting TIMESTAMP NOT NULL,
+    pattern_id INT NOT NULL,
+    comment_text text(1000) NOT NULL,
+    FOREIGN KEY (pattern_id) REFERENCES pattern(id) ON DELETE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS notifications (
+                                             id INT PRIMARY KEY AUTO_INCREMENT,
+                                             username VARCHAR (100) NOT NULL,
+    pattern_id INT NOT NULL,
+    pattern_name VARCHAR(100) NOT NULL,
+    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
+    );
+
 INSERT INTO page_visit_counter (last_time_visited, number_of_visits)
 SELECT CURRENT_TIMESTAMP, 1
-WHERE NOT EXISTS (SELECT 1 FROM page_visit_counter LIMIT 1);
+    WHERE NOT EXISTS (SELECT 1 FROM page_visit_counter LIMIT 1);

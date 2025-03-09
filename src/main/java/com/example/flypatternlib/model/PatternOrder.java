@@ -5,8 +5,8 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table
 public class PatternOrder {
-        @Id
-        Integer pattern;
+    @Id
+    Integer pattern;
 
     public PatternOrder(Integer pattern) {
         this.pattern = pattern;

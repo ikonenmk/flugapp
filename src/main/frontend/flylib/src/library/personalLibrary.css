@@ -1,17 +1,22 @@
 .tab-container {
     display: flex;
     flex-direction: column;
-    max-width: 40em;
-    padding-top: 0.5em;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: 1.5em;
 }
 
 .tabs {
-    width: 100%;
-    background-color: black;
     display: flex;
-    border-top: 1px solid lightgray;
-    border-right: 1px solid lightgray;
+    justify-content: center;
+    width: 100%;
+    max-width: 45em;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 }
+
 
 .tabs button {
     flex: 1;
@@ -28,6 +33,12 @@
     text-align: center;
     transition: background-color 0.3s, color 0.3s;
     box-sizing: border-box;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.accordion-content-container {
+    width: 100%;
 }
 
 .tabs button:hover {
@@ -45,13 +56,100 @@
 }
 
 .tabContent {
-    display: none;
-    padding: 6px 12px;
-    border-top: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 45em;
+    padding-bottom: 1em;
+
 }
 
 .activeTabContent {
     display: block;
-    padding: 6px 12px;
     border-top: none;
+    max-width: 45em;
+    padding: 0.5em;
+}
+
+.saved-patterns-tab {
+    width: 100%;
+    background-color: blue;
+}
+
+.created-patterns-tab {
+    width: 100%;
+    background-color: yellow;
+}
+
+.edit-create-form {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    align-items: center;
+    margin-top: 0.5em;
+
+}
+
+.edit-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cancel-button {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    height: 4em;
+    font-size: 1em;
+    background-color: grey;
+    border: none;
+    min-width: 18em;
+    color: white;
+    cursor: pointer;
+}
+.cancel-button-enabled {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    height: 4em;
+    font-size: 1em;
+    background-color: grey;
+    border: none;
+    min-width: 18em;
+    color: white;
+    cursor: pointer;
+}
+.cancel-button-enabled:hover {
+    border-color: grey;
+    color: black;
+    background-color: lightgrey;
+}
+
+.cancel-button-disabled {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    height: 4em;
+    font-size: 1em;
+    background-color: lightgray;
+    border: none;
+    min-width: 18em;
+    color: white;
+    cursor: not-allowed;
+}
+.cancel-button-disabled:hover {
+    border-color: lightgray;
+    background-color: lightgray;
+}
+
+@media screen and (max-width: 768px) {
+    .tabs, .tabContent{
+        width: calc(100% - 5%);
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .tabs, .tabContent{
+        width: 100%;
+    }
 }

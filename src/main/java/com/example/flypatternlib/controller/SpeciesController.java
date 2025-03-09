@@ -48,7 +48,7 @@ public class SpeciesController {
         repository.deleteById(species_id);
     }
 
-    // Return species based on array of id:s
+    // Return species names based on array of id:s
     @GetMapping("/names/{speciesIds}")
     public List<Optional<Species>> findById(@PathVariable int[] speciesIds) {
         return service.findById(speciesIds);

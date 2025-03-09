@@ -255,16 +255,20 @@ export default function UserAccordion({username}) {
                     <p>{pattern.hook_size_from} - {pattern.hook_size_to}</p>
 
                     <h2>Materials: </h2>
-                    <ul className="list-of-material">
+                    <ul className="material-list">
                         {materialsData[pattern.id] && materialsData[pattern.id].map((material) => (
-                            <li key={material.id}>{material.name}</li>
+                            <li key={material.id}>
+                                {material.name.charAt(0).toUpperCase() + material.name.slice(1)}
+                            </li>
                         ))}
                     </ul>
 
                     <h2>Species: </h2>
-                    <ul className="list-of-species">
+                    <ul className="material-list">
                         {speciesData[pattern.id] && speciesData[pattern.id].map((species) => (
-                            <li key={species.id}>{species.name}</li>
+                            <li key={species.id}>
+                                {species.name.charAt(0).toUpperCase() + species.name.slice(1)}
+                            </li>
                         ))}
                     </ul>
 

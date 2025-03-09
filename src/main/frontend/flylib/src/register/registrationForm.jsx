@@ -139,7 +139,7 @@ export default function RegistrationForm() {
     return (
         <>
             <div className="rubric">
-                    <h1>Register</h1>
+                <h1>Register</h1>
             </div>
             {submitted ? (
                 <div className="status-text-container">
@@ -147,58 +147,64 @@ export default function RegistrationForm() {
                     <p className="status-text"> You have been registered. Please <Link to="/login">login</Link></p>
                 </div>
             ) : (
-                    <>
-                    <div className="form-container">
-                        <form className="login-form">
-                            <label className="label">Username</label>
-                            <input
-                                id="username"
-                                onChange={handleInput}
-                                className="input"
-                                value={username}
-                                type="text"
-                                enterKeyHint="done"
-                                onKeyDown={(e) => handleEnterClick(e)}
-                            />
-                            <p className="error-text">{usernameError ? usernameErrorMsg : ""}</p>
-                            <label className="label">E-mail</label>
-                            <input
-                                id="email"
-                                onChange={handleInput}
-                                className="input"
-                                value={email}
-                                type="text"
-                                enterKeyHint="done"
-                                onKeyDown={(e) => handleEnterClick(e)}
-                            />
-                            <p className="error-text">{emailError ? emailErrorMsg : ""}</p>
+                <>
+                    <div className="registration-form-container">
+                        <div className="form-container">
+                            <form className="registration-form">
+                                <label className="label">Username</label>
+                                <input
+                                    id="username"
+                                    onChange={handleInput}
+                                    className="input"
+                                    value={username}
+                                    type="text"
+                                    enterKeyHint="done"
+                                    onKeyDown={(e) => handleEnterClick(e)}
+                                />
+                                <p className="error-text">{usernameError ? usernameErrorMsg : ""}</p>
+                                <label className="label">E-mail</label>
+                                <input
+                                    id="email"
+                                    onChange={handleInput}
+                                    className="input"
+                                    value={email}
+                                    type="text"
+                                    enterKeyHint="done"
+                                    onKeyDown={(e) => handleEnterClick(e)}
+                                />
+                                <p className="error-text">{emailError ? emailErrorMsg : ""}</p>
 
-                            <label className="label">Password</label>
-                            <input
-                                id="password"
-                                onChange={handleInput}
-                                className="input"
-                                value={password}
-                                type="password"
-                                enterKeyHint="done"
-                                onKeyDown={(e) => handleEnterClick(e)}
-                            />
-                            <p className="error-text">{passError ? passErrorMsg : ""}</p>
-                            <div className="checkBox-container">
-                                <input className="accept-checkbox" type="checkbox" onChange={handleCheckBoxChange} />
-                                I understand and accept the <a className="modal-link" onClick={(e) => openModal(e)}>Privacy Policy </a>
-                                {modalOpen ? (
-                                    <Modal setModalOpen={setModalOpen}/>
-                                ) : ("")}
-                            </div>
-                            <RegisterButton emailError={emailError} passError={passError} databaseError={dataBaseError}
-                                            usernameError={usernameError} handleSubmit={handleSubmit}
-                            hasAccepted={hasAccepted}/>
-                            {dataBaseError ? <p className="error-text">{dataBaseErrorMsg}</p> : ""}
+                                <label className="label">Password</label>
+                                <input
+                                    id="password"
+                                    onChange={handleInput}
+                                    className="input"
+                                    value={password}
+                                    type="password"
+                                    enterKeyHint="done"
+                                    onKeyDown={(e) => handleEnterClick(e)}
+                                />
+                                <p className="error-text">{passError ? passErrorMsg : ""}</p>
+                                <div className="checkBox-container">
+                                    <input className="accept-checkbox" type="checkbox"
+                                           onChange={handleCheckBoxChange}/>
+                                    I understand and accept the <a className="modal-link"
+                                                                   onClick={(e) => openModal(e)}>Privacy Policy </a>
+                                    {modalOpen ? (
+                                        <Modal setModalOpen={setModalOpen}/>
+                                    ) : ("")}
+                                </div>
+                                <RegisterButton emailError={emailError} passError={passError}
+                                                databaseError={dataBaseError}
+                                                usernameError={usernameError} handleSubmit={handleSubmit}
+                                                hasAccepted={hasAccepted}/>
+                                {dataBaseError ? <p className="error-text">{dataBaseErrorMsg}</p> : ""}
 
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                    </>)
+
+                </>)
             }
         </>
     )

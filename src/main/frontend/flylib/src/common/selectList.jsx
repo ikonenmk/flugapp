@@ -26,13 +26,13 @@ export default function SelectList ({endpoint, setSelectOptionValue}) {
     }, []);
 
     return(
-            <select className="select-type"
+        <select className="select-type"
                 onChange={e => setSelectOptionValue(e.target.value)}
-            >
-                {selectListData.map((type) =>
-                    <option key={type.id} value={type.name}>{type.name}</option>
-                )}
-            </select>
+        >
+            {selectListData.map((type) =>
+                <option key={type.id} value={type.name}>{type.name}</option>
+            )}
+        </select>
     )
 
 }

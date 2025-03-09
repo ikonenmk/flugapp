@@ -4,6 +4,7 @@ import SendEmailButton from "./sendEmailButton.jsx";
 import axios from "axios";
 import Cookies from "js-cookie";
 import {useAuth, useAuthDispatch} from "../../contexts/authContext.jsx";
+import "./forgotpassword.css"
 
 export default function ForgotPassword() {
     // Auth states
@@ -44,14 +45,14 @@ export default function ForgotPassword() {
                     setNoInput(false);
                 }
             }
-            } else {
-                    setNoInput(true);
-                    setEmail(inputString);
-                    setEmailError(true);
-
-            }
+        } else {
+            setNoInput(true);
+            setEmail(inputString);
+            setEmailError(true);
 
         }
+
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -93,36 +94,39 @@ export default function ForgotPassword() {
             <div className="rubric">
                 <h1>Forgot Password</h1>
             </div>
-            {submitted ? (
-                <div className="status-text-container">
-                    <h2>Password Restoration Link Sent </h2>
-                    <p className="status-text"> A password restoration link has been sent to the e-mail linked to your account. Follow the directions in the e-mail to change your password.
-                    The link is active for 1 hour. </p>
-                </div>
-            ) : (
-                <>
-                <div className="form-container">
-                    <form className="login-form">
-                        <label className="label">Type in the e-mail registered for the account</label>
-                        <input
-                            id="email"
-                            onChange={handleInput}
-                            className="input"
-                            value={email}
-                            type="text"
-                            enterKeyHint="done"
-                            onKeyDown={(e) => handleEnterClick(e)}
-                        />
-                        <p className="error-text">{emailError ? emailErrorMsg : ""}</p>
-                        <SendEmailButton
-                            noInput={noInput}
-                            emailError={emailError}
-                            handleSubmit={handleSubmit}/>
-                        <p className="error-text"> {dataBaseError ? dataBaseErrorMsg : ""} </p>
-                    </form>
-                </div>
-                </>)
-            }
+            <div className="login-form-container">
+                {submitted ? (
+                    <div className="status-text-container">
+                        <h2>Password Restoration Link Sent </h2>
+                        <p className="status-text"> A password restoration link has been sent to the e-mail linked to your account. Follow the directions in the e-mail to change your password.
+                            The link is active for 1 hour. </p>
+                    </div>
+                ) : (
+                    <>
+                        <div className="form-container">
+                            <form className="login-form">
+                                <label className="label">Type in the e-mail registered for the account</label>
+                                <input
+                                    id="email"
+                                    onChange={handleInput}
+                                    className="input"
+                                    value={email}
+                                    type="text"
+                                    enterKeyHint="done"
+                                    onKeyDown={(e) => handleEnterClick(e)}
+                                />
+                                <p className="error-text">{emailError ? emailErrorMsg : ""}</p>
+                                <SendEmailButton
+                                    noInput={noInput}
+                                    emailError={emailError}
+                                    handleSubmit={handleSubmit}/>
+                                <p className="error-text"> {dataBaseError ? dataBaseErrorMsg : ""} </p>
+                            </form>
+                        </div>
+                    </>)
+                }
+            </div>
+
         </>
-   );
+    );
 }

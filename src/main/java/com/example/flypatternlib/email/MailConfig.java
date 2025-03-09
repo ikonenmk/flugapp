@@ -11,6 +11,6 @@ public class MailConfig {
 
     @Bean
     public JavaMailSender getMailSender() {
-       /* CODE HIDDEN */
+       /* */
     }
 }

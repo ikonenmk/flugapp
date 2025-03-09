@@ -1,7 +1,9 @@
 package com.example.flypatternlib.service;
 
+import com.example.flypatternlib.model.Notification;
 import com.example.flypatternlib.model.Pattern;
 import com.example.flypatternlib.model.UserRegRequest;
+import com.example.flypatternlib.repository.NotificationsRepository;
 import com.example.flypatternlib.repository.PatternRepository;
 import com.example.flypatternlib.repository.UserPatternRepository;
 import com.example.flypatternlib.repository.UserRepository;
@@ -13,9 +15,11 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -26,14 +30,16 @@ public class UserService {
     private final UserPatternRepository userPatternRepository;
     private final PatternRepository patternRepository;
     private final PatternManagementService patternManagementService;
+    private final NotificationsRepository notificationsRepository;
 
-    public UserService(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder, UserRepository userRepository, UserPatternRepository userPatternRepository, PatternRepository patternRepository, PatternManagementService patternManagementService) {
+    public UserService(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder, UserRepository userRepository, UserPatternRepository userPatternRepository, PatternRepository patternRepository, PatternManagementService patternManagementService, NotificationsRepository notificationsRepository) {
         this.jdbcUserDetailsManager = jdbcUserDetailsManager;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.userPatternRepository = userPatternRepository;
         this.patternRepository = patternRepository;
         this.patternManagementService = patternManagementService;
+        this.notificationsRepository = notificationsRepository;
     }
 
     public void addUser(UserRegRequest loginRequest) {
@@ -49,7 +55,7 @@ public class UserService {
         String sql = "INSERT INTO user_emails (user, email) VALUES (?, ?)";
         assert jdbcUserDetailsManager.getJdbcTemplate() != null;
         jdbcUserDetailsManager.getJdbcTemplate().update(sql, loginRequest.username(), loginRequest.email());
-        
+
         // Add joined date to user data table
         LocalDateTime dateAndTime = LocalDateTime.now();
         String sqlString = "INSERT INTO user_data (user, join_date) VALUES (?, ?)";
@@ -84,8 +90,8 @@ public class UserService {
     // Method for looking up if a username exists, returns true or false
     public boolean findUser(String username) {
         try {
-           UserDetails user = jdbcUserDetailsManager.loadUserByUsername(username);
-           return true;
+            UserDetails user = jdbcUserDetailsManager.loadUserByUsername(username);
+            return true;
         } catch (UsernameNotFoundException error) {
             System.out.println(error.getMessage());
             return false;
@@ -134,7 +140,7 @@ public class UserService {
 
     public String getLocation(String username) {
         String loc = userRepository.getLocation(username);
-        // Return empty string if value of location  is "null"
+        // Return empty string if value of location is "null"
         if (Objects.equals(loc, "null")) {
             return "";
         } else {
@@ -197,5 +203,17 @@ public class UserService {
     }
 
 
+    public List<Notification> getNotificationsByUsername(String username) {
+        List<Notification> notifications = notificationsRepository.findAllByUsername(username);
+        if(notifications.isEmpty()) {
+            throw new RuntimeException("No notifications found for this username");
+        } else {
+            return notifications;
+        }
+    }
+
+    public void deleteNotificationById(int notificationId) {
+        notificationsRepository.deleteById(notificationId);
+    }
 }
 

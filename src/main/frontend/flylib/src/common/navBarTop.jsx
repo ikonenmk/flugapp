@@ -8,14 +8,25 @@ import {CheckJwt} from "../utils/checkJwt.jsx";
 import axios from "axios";
 import Logo from "../utils/flyxiconweblogo.png"
 import SmallLogo from "../utils/flyxiconweblogo.png"
+import Button from "@mui/material/Button";
+import AnnouncementIcon from '@mui/icons-material/Announcement';
+import {useNotificationContext, useNotificationDispatch} from "../contexts/notificationContext.jsx";
 export default function NavBarTop() {
     const navigate = useNavigate();
     const menuRef = useRef(null); // Ref for the menu container
     const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false); // menu state
+    const notificationMenuRef = useRef(null); // ref for notification container
+    const [isNotificationMenuOpen, setIsNotificationMenuOpen] = useState(false); // state for notification menu
+    const [notifications, setNotifications] = useState([]) // state for user's notfications
     const [username, setUsername] = useState("");
+    // Read from AuthContext
     const dispatch = useAuthDispatch();
     const userStatus = useAuth();
+    // state for updating notifications on delete
+    const [updatedNotifications, setUpdatedNotifications] = useState(false);
+    // Loading state
     const [loading, setLoading] = useState(true);
+    // Set token and config for api calls
     const token = Cookies.get("token");
     const config = {
         headers: {
@@ -59,6 +70,27 @@ export default function NavBarTop() {
 
     }, [userStatus]);
 
+    // Update user notifications every 10 second
+    useEffect(() => {
+        if(userStatus === 'authorized' && username !== "" && token !== "") {
+            const intervalId = setInterval(() => {
+                axios
+                    .get(`/api/user/notifications?username=${username}`, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    })
+                    .then((response) => {
+                        setNotifications(response.data);
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching notifications:', error);
+                    });
+            }, 10000);
+            // Clean up
+            return () => clearInterval(intervalId);
+        }
+
+    }, [username, token]);
+
     // Toggle hamburger menu
     function toggleMenu() {
         setIsHamburgerMenuOpen(!isHamburgerMenuOpen);
@@ -80,6 +112,10 @@ export default function NavBarTop() {
                 setIsHamburgerMenuOpen(false);
                 document.body.classList.remove("no-scroll");
             }
+
+            if (notificationMenuRef.current && !notificationMenuRef.current.contains(event.target)) {
+                setIsNotificationMenuOpen(false);
+            }
         }
         document.addEventListener('mousedown', handleOutSideClick);
         return () => {
@@ -89,6 +125,49 @@ export default function NavBarTop() {
 
     if (loading) {
         return <div className="menu-container">Loading...</div>; // Or any loading indicator you prefer
+    }
+
+    // Toggle notifications menu
+    function toggleNotifications() {
+        setIsNotificationMenuOpen(!isNotificationMenuOpen);
+    }
+
+    // Fetch notifications
+    async function fetchNotifications() {
+        try {
+            const response = await axios.get(`/api/user/notifications?username=${username}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            setNotifications(response.data);
+        } catch (error) {
+            console.error('Error fetching notifications:', error);
+        }
+    }
+
+    // Delete a notification
+    async function deleteNotification(notificationId) {
+        try {
+            const response = await axios
+                .delete(`/api/user/notifications?notificationId=${notificationId}`,
+                    {headers: {Authorization: `Bearer ${token}`},})
+            if(response.data.success === true) {
+                fetchNotifications(); // re-fetch notifications
+
+                /* Close notification drop-down if the deleted element was the last to avoid unwanted dropdowns when
+                a new comment is added again */
+                if(notifications.length === 1) {
+                    setIsNotificationMenuOpen(false);
+                }
+            } else {
+                console.log(response.data.message);
+            }
+        } catch (error) {
+            console.log("Axios error: ", error);
+        }
+    }
+
+    function closeMenu() {
+        setIsNotificationMenuOpen(false);
     }
 
     function logoButtonClicked() {
@@ -126,6 +205,7 @@ export default function NavBarTop() {
                         <li className="menu-link-button"><NavLink to="/about"> About </NavLink></li>
 
                     </ul>
+
                 </nav>
                 <div className="hamburger-menu-container" ref={menuRef}>
                     <div className="small-button-container">
@@ -167,8 +247,58 @@ export default function NavBarTop() {
                 </div>
                 <NavLink to="/about" className="about-button"> About </NavLink>
 
+                {notifications && notifications.length > 0 ? (
+                    <div className="notification-menu-container" ref={notificationMenuRef}>
+                        <Button
+                            className="toggle-notifications-button"
+                            onClick={toggleNotifications}
+                            size="large"
+                            startIcon={<AnnouncementIcon/>}
+                            sx={{
+                                float: "left",
+                                padding: "15px 12px",
+                                color: "white",
+                                "&:hover": {
+                                    color: "grey"
+                                }
+                            }}
+                        />
+                        <div className={isNotificationMenuOpen ? 'notification-menu' : 'no-notificationmenu'}>
+                            <ul>
+                                {notifications.map(notification => (
+                                    <li key={notification.id}>
+                                        <button
+                                            value={notification.id}
+                                            className="delete-notification-button"
+                                            onClick={(e) =>
+                                                deleteNotification(e.target.value)
+                                            }
+                                        >
+                                            &times;
+                                        </button>
+                                        {notification.patternName} has a {' '}
+                                        <NavLink
+                                            onClick={closeMenu}
+                                            className="pattern-link"
+                                            key={notification.patternId}
+                                            to={`/pattern/${notification.patternId}`}
+                                        >
+                                            new comment
+                                        </NavLink>
+
+                                    </li>
+                                ))}
+                            </ul>
+
+                        </div>
+                    </div>
+                ): (
+                    ""
+                )}
+
 
             </div>
+
         </>
     );
 }

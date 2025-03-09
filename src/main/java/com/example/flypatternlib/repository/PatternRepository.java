@@ -62,4 +62,12 @@ public interface PatternRepository extends ListCrudRepository<Pattern, Integer> 
 
     @Query("SELECT * FROM pattern ORDER BY id DESC")
     List<Pattern> findAllByIdDesc();
+
+    // Find username of creator of pattern based on pattern id
+    @Query("SELECT created_by_user FROM pattern WHERE id = :patternId")
+    String getCreatorByPatternId(int patternId);
+
+    // Find pattern name by pattern id
+    @Query("SELECT name FROM pattern WHERE id = :patternId")
+    String getPatternNameById(int patternId);
 }

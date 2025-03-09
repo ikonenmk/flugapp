@@ -18,6 +18,9 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
     const [searchStringArray, setSearchStringArray] = useState([]);
     // State to force re-render of component on add button click (deletes input text)
     const [searchKey, setSearchKey] = useState(0);
+    // State for already exisiting pattern data (material or species)
+    const [existingMaterialData, setExistingMaterialData] = useState([]);
+    const [existingSpeciesData, setExistingSpeciesData] = useState([]);
     // Load available data into const availableData
     useEffect(() => {
         axios
@@ -28,33 +31,31 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
             .catch((error) => {
                 console.log('Axios request error: ', error);
             });
-    }, []);
+    }, [isEditing, endpoint, materialsData, speciesData]);
 
     // If SearchField is called from editPattern, add already added items
     useEffect(() => {
-        if(isEditing === true) {
-            let itemData;
-            if(endpoint === "material") {
-                itemData = materialsData;
-            }
-            if(endpoint === "species") {
-                itemData = speciesData;
-            }
-            // Add materials or species to itemdata
-            let itemString;
-            if(itemData) {
-                for (let i = 0; i < itemData.length; i++) {
-                    // update searchStringArray to add buttons
-                    itemString = itemData[i].name;
+        if (isEditing) {
+            let itemData = endpoint === "material" ? materialsData : speciesData;
 
-                    if (itemString !== "") {
-                        handleAddButton(true, itemString);
-                    }
-                }
-            }
+            if (itemData) {
+                let newItems = itemData
+                    .map((item) => item.name)
+                    .filter((name) => name !== ""); // Remove empty names
 
+                // Prevent duplicates
+                setSearchStringArray((prevArray) => {
+                    const uniqueItems = new Set([...prevArray, ...newItems]);
+                    return Array.from(uniqueItems);
+                });
+
+                setSearchInput((prevArray) => {
+                    const uniqueItems = new Set([...prevArray, ...newItems]);
+                    return Array.from(uniqueItems);
+                }, endpoint);
+            }
         }
-    }, []);
+    }, [isEditing, endpoint, materialsData, speciesData]);
 
 
     //Handel input in search field
@@ -121,6 +122,7 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
                         return prevArray;
                     }
                     const updatedArray = [...prevArray, searchItem];
+                    setSearchInput(updatedArray, endpoint);
                     return updatedArray;
                 });
             }
@@ -132,6 +134,7 @@ export default function SearchField({endpoint, setSearchInput, updateFilter, isE
                         return prevArray;
                     }
                     const updatedArray = [...prevArray, searchItem.name];
+                    setSearchInput(updatedArray, endpoint);
                     return updatedArray;
                 });
             }

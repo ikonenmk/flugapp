@@ -2,6 +2,7 @@ package com.example.flypatternlib.controller;
 
 import com.example.flypatternlib.DTO.CreatorDTO;
 import com.example.flypatternlib.DTO.FlyTypeDTO;
+import com.example.flypatternlib.model.Comment;
 import com.example.flypatternlib.model.Pattern;
 import com.example.flypatternlib.repository.MaterialRepository;
 import com.example.flypatternlib.repository.PatternRepository;
@@ -68,20 +69,20 @@ public class PatternController {
                     .body(new ApiResponse("Pattern deleted from database", true));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Pattern could not be deleted: " +e.getMessage(), false));
+                    .body(new ApiResponse("Pattern could not be deleted: " + e.getMessage(), false));
         }
     }
 
     // Update a pattern
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/pattern/{pattern_id}")
-    public void update( @PathVariable Integer pattern_id, @RequestBody Pattern pattern, @RequestParam("speciesArray") String[] speciesArray, @RequestParam("materialsArray") String[] materialsArray) {
+    public void update(@PathVariable Integer pattern_id, @RequestBody Pattern pattern, @RequestParam("speciesArray") String[] speciesArray, @RequestParam("materialsArray") String[] materialsArray) {
         //If pattern id not in DB, throw error
-        if(!patternRepository.existsById(pattern_id)) {
+        if (!patternRepository.existsById(pattern_id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pattern not found.");
         }
         //If pattern id in request body does not match path variable, throw error
-        if(!Objects.equals(pattern.getId(), pattern_id)) {
+        if (!Objects.equals(pattern.getId(), pattern_id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pattern not found.");
         }
         patternService.addPattern(pattern, speciesArray, materialsArray);
@@ -119,7 +120,7 @@ public class PatternController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Unexpected error occurred: " + e.getMessage());
-    }
+        }
     }
 
     // Find by name
@@ -135,11 +136,47 @@ public class PatternController {
                 .distinct()
                 .collect(Collectors.toList());
         List<CreatorDTO> creatorsToReturn = new ArrayList<>();
-        for(int i = 0; i < filteredList.size(); i++) {
+        for (int i = 0; i < filteredList.size(); i++) {
             CreatorDTO newCreator = new CreatorDTO(i, filteredList.get(i));
             creatorsToReturn.add(newCreator);
         }
         return creatorsToReturn;
+    }
+
+    // Add comment
+    @PostMapping("/pattern/comment")
+    public ResponseEntity<ApiResponse> addComment(@RequestParam String username, @RequestParam int pattern_id, @RequestParam String comment_text) {
+        try {
+            patternService.addComment(username, pattern_id, comment_text);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponse("Post added", true));
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Comment could not be added: " + e.getMessage(), false));
+        }
+    }
+
+    // Get all comments for pattern id
+    @GetMapping("/pattern/comment")
+    public List<Comment> getCommentsForPattern(@RequestParam int pattern_id) {
+        System.out.println("pattern id = " + pattern_id);
+        return patternService.getCommentsForPattern(pattern_id);
+    }
+
+    // Delete comment by comment id
+    @DeleteMapping("/pattern/comment")
+    public ResponseEntity<ApiResponse> deleteComment(@RequestParam int comment_id) {
+        try {
+            patternService.deleteCommentById(comment_id);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponse("Post deleted", true));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Comment could not be deleted " + e.getMessage(), false));
+        }
     }
 
 }

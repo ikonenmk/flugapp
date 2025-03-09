@@ -1,5 +1,6 @@
 package com.example.flypatternlib.controller;
 import com.example.flypatternlib.DTO.ProfileDataDTO;
+import com.example.flypatternlib.model.Notification;
 import com.example.flypatternlib.model.UserRegRequest;
 import com.example.flypatternlib.model.Pattern;
 import com.example.flypatternlib.model.User;
@@ -175,7 +176,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/delete")
     ResponseEntity<ApiResponse> deleteUser(@RequestParam String username) {
-        System.out.println("Trying to delete, " + username);
         try {
             userService.deleteByUserId(username);
             return ResponseEntity.status(HttpStatus.OK)
@@ -183,6 +183,30 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("User could not be deleted: " +e.getMessage(), false));
+        }
+    }
+
+    // Get user's notfications about new comments to patterns
+    @GetMapping("/notifications")
+    public List<Notification> getNotificationsForUser(@RequestParam String username) {
+        try {
+            return userService.getNotificationsByUsername(username);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return null;
+        }
+    }
+
+    // Delete a user notification based on id
+    @DeleteMapping("/notifications")
+    public ResponseEntity<ApiResponse> deleteNotification(@RequestParam int notificationId) {
+        try {
+            userService.deleteNotificationById(notificationId);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponse("Notification deleted", true));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Notification could not be deleted " + e.getMessage(), false));
         }
     }
 }

@@ -14,6 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import {NavLink} from "react-router-dom";
+import {Close, Done} from "@mui/icons-material";
 
 export default function PatternAccordion({ username, typeOfView }) {
     const token = Cookies.get("token");
@@ -232,10 +233,9 @@ export default function PatternAccordion({ username, typeOfView }) {
                     <Button
                         onClick={toggleEdit}
                         variant="outlined"
-                        startIcon={<BackspaceIcon />}
+                        startIcon={<Close />}
+                        size="large"
                         sx={{
-                            marginLeft: 1,
-                            marginBottom: 2,
                             color: 'grey',
                             borderColor: 'lightgrey',
                             '&:hover': {
@@ -243,12 +243,13 @@ export default function PatternAccordion({ username, typeOfView }) {
                                 borderColor: 'grey', // Keep border consistent
                             },
                         }}
-                    >Cancel editing</Button>
+                    >CANCEL</Button>
                 ) : (
                     <Button
                         onClick={toggleEdit}
                         variant="outlined"
                         startIcon={<EditIcon />}
+                        size="large"
                         sx={{
                             color: 'grey',
                             borderColor: 'lightgrey',
@@ -292,12 +293,15 @@ export default function PatternAccordion({ username, typeOfView }) {
                 {typeOfView === 'createdPatterns' && (
                     isEditing && expanded === index ? (
                             <>
-                                <EditPattern
-                                    setIsEditing={setIsEditing}
-                                    pattern={pattern}
-                                    materialsData={materialsData[pattern.id]}
-                                    speciesData={speciesData[pattern.id]}/>
-                                <EditButton toggleEdit={toggleEdit} isEditing={isEditing} pattern={pattern}/>
+                                <div className="edit-button-container">
+                                    <EditPattern
+                                        setIsEditing={setIsEditing}
+                                        pattern={pattern}
+                                        materialsData={materialsData[pattern.id]}
+                                        speciesData={speciesData[pattern.id]}/>
+
+                                    <EditButton toggleEdit={toggleEdit} isEditing={isEditing} pattern={pattern}/>
+                                </div>
                             </>
 
                         )
@@ -318,30 +322,34 @@ export default function PatternAccordion({ username, typeOfView }) {
                                     <p>{pattern.hook_size_from} - {pattern.hook_size_to}</p>
 
                                     <h2>Materials: </h2>
-                                    <ul className="list-of-material">
+                                    <ul className="material-list">
                                         {materialsData[pattern.id] && materialsData[pattern.id].map((material) => (
-                                            <li key={material.id}>{material.name}</li>
+                                            <li key={material.id}>
+                                                {material.name.charAt(0).toUpperCase() + material.name.slice(1)}
+                                            </li>
                                         ))}
                                     </ul>
 
                                     <h2>Species: </h2>
-                                    <ul className="list-of-species">
+                                    <ul className="species-list">
                                         {speciesData[pattern.id] && speciesData[pattern.id].map((species) => (
-                                            <li key={species.id}>{species.name}</li>
+                                            <li key={species.id}>
+                                                {species.name.charAt(0).toUpperCase() + species.name.slice(1)}
+                                            </li>
                                         ))}
                                     </ul>
 
                                     {pattern.descr && pattern.descr.trim() !== "" && (
                                         <>
                                             <h2>Description:</h2>
-                                            <p>{pattern.descr}</p>
+                                            <p className="description-text">{pattern.descr}</p>
                                         </>
                                     )}
 
                                     {pattern.instr && pattern.instr.trim() !== "" && (
                                         <>
                                             <h2>Tying instructions:</h2>
-                                            <p>{pattern.instr}</p>
+                                            <p className="instruction-text">{pattern.instr}</p>
                                         </>
                                     )}
 
@@ -393,37 +401,41 @@ export default function PatternAccordion({ username, typeOfView }) {
                             <p>{pattern.hook_size_from} - {pattern.hook_size_to}</p>
 
                             <h2>Materials: </h2>
-                            <ul className="list-of-material">
+                            <ul className="material-list">
                                 {materialsData[pattern.id] && materialsData[pattern.id].map((material) => (
-                                    <li key={material.id}>{material.name}</li>
+                                    <li key={material.id}>
+                                        {material.name.charAt(0).toUpperCase() + material.name.slice(1)}
+                                    </li>
                                 ))}
                             </ul>
 
                             <h2>Species: </h2>
-                            <ul className="list-of-species">
+                            <ul className="species-list">
                                 {speciesData[pattern.id] && speciesData[pattern.id].map((species) => (
-                                    <li key={species.id}>{species.name}</li>
+                                    <li key={species.id}>
+                                        {species.name.charAt(0).toUpperCase() + species.name.slice(1)}
+                                    </li>
                                 ))}
                             </ul>
 
                             {pattern.descr && pattern.descr.trim() !== "" && (
                                 <div className="descriptionContainer">
                                     <h2>Description:</h2>
-                                    <p>{pattern.descr}</p>
+                                    <p className="description-text">{pattern.descr}</p>
                                 </div>
                             )}
 
                             {pattern.instr && pattern.instr.trim() !== "" && (
                                 <div className="instructionContainer">
                                     <h2>Tying instructions:</h2>
-                                    <p>{pattern.instr}</p>
+                                    <p className="instruction-text">{pattern.instr}</p>
                                 </div>
                             )}
-                                <h2>Created by:</h2>
-                                <p>{pattern.created_by_user}</p>
-                                <NavLink to={`/user/${pattern.created_by_user}`} className="user-navlink">
-                                    See all patterns created by {pattern.created_by_user}
-                                </NavLink>
+                            <h2>Created by:</h2>
+                            <p>{pattern.created_by_user}</p>
+                            <NavLink to={`/user/${pattern.created_by_user}`} className="user-navlink">
+                                See all patterns created by {pattern.created_by_user}
+                            </NavLink>
                             <AccordionActions>
                                 <Button
                                     onClick={() => deleteFromLib(pattern.id)}
